@@ -48,8 +48,8 @@ public class ScryptSecretKeyFactory extends SecretKeyFactorySpi {
             p = spec.getParallelizationParameter();
             keyOutputBits = spec.getKeyLength();
         } else {
-            // Extract parameters from any `KeySpec` that has getters with the correct name. This allows,
-            // for example, code to use BouncyCastle's KeySpec with the conscrypt provider.
+            // Extract parameters from any `KeySpec` that has getters with the correct name. This
+            // allows, for example, code to use BouncyCastle's KeySpec with the Conscrypt provider.
             try {
                 password = (char[]) getValue(inKeySpec, "getPassword");
                 salt = (byte[]) getValue(inKeySpec, "getSalt");
@@ -67,12 +67,11 @@ public class ScryptSecretKeyFactory extends SecretKeyFactorySpi {
         }
 
         try {
-        return new ScryptKey(
-                NativeCrypto.Scrypt_generate_key(
-                        new String(password).getBytes("UTF-8"), salt, n, r, p, keyOutputBits / 8));
+            return new ScryptKey(NativeCrypto.Scrypt_generate_key(
+                    new String(password).getBytes("UTF-8"), salt, n, r, p, keyOutputBits / 8));
         } catch (UnsupportedEncodingException e) {
                 // Impossible according to the Java docs: UTF-8 is always supported.
-                throw new RuntimeException(e);
+                throw new IllegalStateException(e);
         }
     }
 
@@ -110,7 +109,7 @@ public class ScryptSecretKeyFactory extends SecretKeyFactorySpi {
 
         @Override
         public String getAlgorithm() {
-            // capitalised because BouncyCastle does it.
+            // Capitalised because BouncyCastle does it.
             return "SCRYPT";
         }
 

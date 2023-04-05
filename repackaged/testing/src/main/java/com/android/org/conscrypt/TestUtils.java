@@ -839,4 +839,18 @@ public final class TestUtils {
             throw new IllegalStateException("Reflection failure", e);
         }
     }
+
+    // Find base method via reflection due to possible version skew on Android
+    // and visibility issues when building with Gradle.
+    public static boolean isTlsV1Supported() {
+        try {
+            return (Boolean) conscryptClass("Platform")
+                    .getDeclaredMethod("isTlsV1Supported")
+                    .invoke(null);
+        } catch (NoSuchMethodException e) {
+            return true;
+        } catch (ClassNotFoundException | IllegalAccessException | InvocationTargetException e) {
+            throw new IllegalStateException("Reflection failure", e);
+        }
+    }
 }

@@ -2,6 +2,63 @@ package org.conscrypt;
 
 import static org.conscrypt.TestUtils.installConscryptAsDefaultProvider;
 
+import org.conscrypt.ct.CTVerifierTest;
+import org.conscrypt.ct.SerializationTest;
+import org.conscrypt.java.security.AlgorithmParameterGeneratorTestDH;
+import org.conscrypt.java.security.AlgorithmParameterGeneratorTestDSA;
+import org.conscrypt.java.security.AlgorithmParametersPSSTest;
+import org.conscrypt.java.security.AlgorithmParametersTestAES;
+import org.conscrypt.java.security.AlgorithmParametersTestDES;
+import org.conscrypt.java.security.AlgorithmParametersTestDESede;
+import org.conscrypt.java.security.AlgorithmParametersTestDH;
+import org.conscrypt.java.security.AlgorithmParametersTestDSA;
+import org.conscrypt.java.security.AlgorithmParametersTestEC;
+import org.conscrypt.java.security.AlgorithmParametersTestGCM;
+import org.conscrypt.java.security.AlgorithmParametersTestOAEP;
+import org.conscrypt.java.security.KeyFactoryTestDH;
+import org.conscrypt.java.security.KeyFactoryTestDSA;
+import org.conscrypt.java.security.KeyFactoryTestEC;
+import org.conscrypt.java.security.KeyFactoryTestRSA;
+import org.conscrypt.java.security.KeyFactoryTestRSACrt;
+import org.conscrypt.java.security.KeyPairGeneratorTest;
+import org.conscrypt.java.security.KeyPairGeneratorTestDH;
+import org.conscrypt.java.security.KeyPairGeneratorTestDSA;
+import org.conscrypt.java.security.KeyPairGeneratorTestRSA;
+import org.conscrypt.java.security.KeyPairGeneratorTestXDH;
+import org.conscrypt.java.security.MessageDigestTest;
+import org.conscrypt.java.security.SignatureTest;
+import org.conscrypt.java.security.cert.CertificateFactoryTest;
+import org.conscrypt.java.security.cert.X509CRLTest;
+import org.conscrypt.java.security.cert.X509CertificateTest;
+import org.conscrypt.javax.crypto.AeadCipherTest;
+import org.conscrypt.javax.crypto.CipherBasicsTest;
+import org.conscrypt.javax.crypto.CipherTest;
+import org.conscrypt.javax.crypto.ECDHKeyAgreementTest;
+import org.conscrypt.javax.crypto.KeyGeneratorTest;
+import org.conscrypt.javax.crypto.ScryptTest;
+import org.conscrypt.javax.crypto.XDHKeyAgreementTest;
+import org.conscrypt.javax.crypto.XdhKeyFactoryTest;
+import org.conscrypt.javax.crypto.XdhKeyTest;
+import org.conscrypt.javax.net.ssl.HttpsURLConnectionTest;
+import org.conscrypt.javax.net.ssl.KeyManagerFactoryTest;
+import org.conscrypt.javax.net.ssl.KeyStoreBuilderParametersTest;
+import org.conscrypt.javax.net.ssl.SNIHostNameTest;
+import org.conscrypt.javax.net.ssl.SSLContextTest;
+import org.conscrypt.javax.net.ssl.SSLEngineTest;
+import org.conscrypt.javax.net.ssl.SSLEngineVersionCompatibilityTest;
+import org.conscrypt.javax.net.ssl.SSLParametersTest;
+import org.conscrypt.javax.net.ssl.SSLServerSocketFactoryTest;
+import org.conscrypt.javax.net.ssl.SSLServerSocketTest;
+import org.conscrypt.javax.net.ssl.SSLSessionContextTest;
+import org.conscrypt.javax.net.ssl.SSLSessionTest;
+import org.conscrypt.javax.net.ssl.SSLSocketFactoryTest;
+import org.conscrypt.javax.net.ssl.SSLSocketTest;
+import org.conscrypt.javax.net.ssl.SSLSocketVersionCompatibilityTest;
+import org.conscrypt.javax.net.ssl.TrustManagerFactoryTest;
+import org.conscrypt.javax.net.ssl.X509KeyManagerTest;
+import org.conscrypt.metrics.CipherSuiteTest;
+import org.conscrypt.metrics.OptionalMethodTest;
+import org.conscrypt.metrics.ProtocolTest;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -11,6 +68,7 @@ import org.junit.runners.Suite;
         // org.conscrypt tests
         AddressUtilsTest.class,
         ApplicationProtocolSelectorAdapterTest.class,
+        ArrayUtilsTest.class,
         CertPinManagerTest.class,
         ChainStrengthAnalyzerTest.class,
         ClientSessionContextTest.class,
@@ -20,6 +78,11 @@ import org.junit.runners.Suite;
         DuckTypedPSKKeyManagerTest.class,
         FileClientSessionCacheTest.class,
         HostnameVerifierTest.class,
+        HpkeContextTest.class,
+        HpkeContextRecipientTest.class,
+        HpkeContextSenderTest.class,
+        HpkeSuiteTest.class,
+        HpkeTestVectorsTest.class,
         NativeCryptoArgTest.class,
         NativeCryptoTest.class,
         NativeRefTest.class,
@@ -71,6 +134,8 @@ import org.junit.runners.Suite;
         ECDHKeyAgreementTest.class,
         KeyGeneratorTest.class,
         XDHKeyAgreementTest.class,
+        XdhKeyFactoryTest.class,
+        XdhKeyTest.class,
         // javax.net.ssl tests
         HttpsURLConnectionTest.class,
         KeyManagerFactoryTest.class,

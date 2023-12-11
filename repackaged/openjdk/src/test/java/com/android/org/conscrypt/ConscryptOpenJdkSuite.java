@@ -3,6 +3,63 @@ package com.android.org.conscrypt;
 
 import static com.android.org.conscrypt.TestUtils.installConscryptAsDefaultProvider;
 
+import com.android.org.conscrypt.ct.CTVerifierTest;
+import com.android.org.conscrypt.ct.SerializationTest;
+import com.android.org.conscrypt.java.security.AlgorithmParameterGeneratorTestDH;
+import com.android.org.conscrypt.java.security.AlgorithmParameterGeneratorTestDSA;
+import com.android.org.conscrypt.java.security.AlgorithmParametersPSSTest;
+import com.android.org.conscrypt.java.security.AlgorithmParametersTestAES;
+import com.android.org.conscrypt.java.security.AlgorithmParametersTestDES;
+import com.android.org.conscrypt.java.security.AlgorithmParametersTestDESede;
+import com.android.org.conscrypt.java.security.AlgorithmParametersTestDH;
+import com.android.org.conscrypt.java.security.AlgorithmParametersTestDSA;
+import com.android.org.conscrypt.java.security.AlgorithmParametersTestEC;
+import com.android.org.conscrypt.java.security.AlgorithmParametersTestGCM;
+import com.android.org.conscrypt.java.security.AlgorithmParametersTestOAEP;
+import com.android.org.conscrypt.java.security.KeyFactoryTestDH;
+import com.android.org.conscrypt.java.security.KeyFactoryTestDSA;
+import com.android.org.conscrypt.java.security.KeyFactoryTestEC;
+import com.android.org.conscrypt.java.security.KeyFactoryTestRSA;
+import com.android.org.conscrypt.java.security.KeyFactoryTestRSACrt;
+import com.android.org.conscrypt.java.security.KeyPairGeneratorTest;
+import com.android.org.conscrypt.java.security.KeyPairGeneratorTestDH;
+import com.android.org.conscrypt.java.security.KeyPairGeneratorTestDSA;
+import com.android.org.conscrypt.java.security.KeyPairGeneratorTestRSA;
+import com.android.org.conscrypt.java.security.KeyPairGeneratorTestXDH;
+import com.android.org.conscrypt.java.security.MessageDigestTest;
+import com.android.org.conscrypt.java.security.SignatureTest;
+import com.android.org.conscrypt.java.security.cert.CertificateFactoryTest;
+import com.android.org.conscrypt.java.security.cert.X509CRLTest;
+import com.android.org.conscrypt.java.security.cert.X509CertificateTest;
+import com.android.org.conscrypt.javax.crypto.AeadCipherTest;
+import com.android.org.conscrypt.javax.crypto.CipherBasicsTest;
+import com.android.org.conscrypt.javax.crypto.CipherTest;
+import com.android.org.conscrypt.javax.crypto.ECDHKeyAgreementTest;
+import com.android.org.conscrypt.javax.crypto.KeyGeneratorTest;
+import com.android.org.conscrypt.javax.crypto.ScryptTest;
+import com.android.org.conscrypt.javax.crypto.XDHKeyAgreementTest;
+import com.android.org.conscrypt.javax.crypto.XdhKeyFactoryTest;
+import com.android.org.conscrypt.javax.crypto.XdhKeyTest;
+import com.android.org.conscrypt.javax.net.ssl.HttpsURLConnectionTest;
+import com.android.org.conscrypt.javax.net.ssl.KeyManagerFactoryTest;
+import com.android.org.conscrypt.javax.net.ssl.KeyStoreBuilderParametersTest;
+import com.android.org.conscrypt.javax.net.ssl.SNIHostNameTest;
+import com.android.org.conscrypt.javax.net.ssl.SSLContextTest;
+import com.android.org.conscrypt.javax.net.ssl.SSLEngineTest;
+import com.android.org.conscrypt.javax.net.ssl.SSLEngineVersionCompatibilityTest;
+import com.android.org.conscrypt.javax.net.ssl.SSLParametersTest;
+import com.android.org.conscrypt.javax.net.ssl.SSLServerSocketFactoryTest;
+import com.android.org.conscrypt.javax.net.ssl.SSLServerSocketTest;
+import com.android.org.conscrypt.javax.net.ssl.SSLSessionContextTest;
+import com.android.org.conscrypt.javax.net.ssl.SSLSessionTest;
+import com.android.org.conscrypt.javax.net.ssl.SSLSocketFactoryTest;
+import com.android.org.conscrypt.javax.net.ssl.SSLSocketTest;
+import com.android.org.conscrypt.javax.net.ssl.SSLSocketVersionCompatibilityTest;
+import com.android.org.conscrypt.javax.net.ssl.TrustManagerFactoryTest;
+import com.android.org.conscrypt.javax.net.ssl.X509KeyManagerTest;
+import com.android.org.conscrypt.metrics.CipherSuiteTest;
+import com.android.org.conscrypt.metrics.OptionalMethodTest;
+import com.android.org.conscrypt.metrics.ProtocolTest;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -15,6 +72,7 @@ import org.junit.runners.Suite;
         // org.conscrypt tests
         AddressUtilsTest.class,
         ApplicationProtocolSelectorAdapterTest.class,
+        ArrayUtilsTest.class,
         CertPinManagerTest.class,
         ChainStrengthAnalyzerTest.class,
         ClientSessionContextTest.class,
@@ -24,6 +82,11 @@ import org.junit.runners.Suite;
         DuckTypedPSKKeyManagerTest.class,
         FileClientSessionCacheTest.class,
         HostnameVerifierTest.class,
+        HpkeContextTest.class,
+        HpkeContextRecipientTest.class,
+        HpkeContextSenderTest.class,
+        HpkeSuiteTest.class,
+        HpkeTestVectorsTest.class,
         NativeCryptoArgTest.class,
         NativeCryptoTest.class,
         NativeRefTest.class,
@@ -75,6 +138,8 @@ import org.junit.runners.Suite;
         ECDHKeyAgreementTest.class,
         KeyGeneratorTest.class,
         XDHKeyAgreementTest.class,
+        XdhKeyFactoryTest.class,
+        XdhKeyTest.class,
         // javax.net.ssl tests
         HttpsURLConnectionTest.class,
         KeyManagerFactoryTest.class,
@@ -99,10 +164,8 @@ import org.junit.runners.Suite;
         X509KeyManagerTest.class,
 })
 public class ConscryptOpenJdkSuite {
-
-  @BeforeClass
-  public static void setupStatic() {
-    installConscryptAsDefaultProvider();
-  }
-
+    @BeforeClass
+    public static void setupStatic() {
+        installConscryptAsDefaultProvider();
+    }
 }

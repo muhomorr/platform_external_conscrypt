@@ -17,10 +17,15 @@
 
 package com.android.org.conscrypt;
 
+import static com.android.org.conscrypt.HpkeFixture.DEFAULT_AAD;
 import static com.android.org.conscrypt.HpkeFixture.DEFAULT_ENC;
 import static com.android.org.conscrypt.HpkeFixture.DEFAULT_EXPORTER_CONTEXT;
 import static com.android.org.conscrypt.HpkeFixture.DEFAULT_EXPORTER_LENGTH;
+import static com.android.org.conscrypt.HpkeFixture.DEFAULT_INFO;
+import static com.android.org.conscrypt.HpkeFixture.DEFAULT_PK;
 import static com.android.org.conscrypt.HpkeFixture.DEFAULT_PT;
+import static com.android.org.conscrypt.HpkeFixture.DEFAULT_SK;
+import static com.android.org.conscrypt.HpkeFixture.DEFAULT_SUITE_NAME;
 import static com.android.org.conscrypt.HpkeFixture.createDefaultHpkeContextRecipient;
 import static com.android.org.conscrypt.HpkeFixture.createDefaultHpkeContextSender;
 import static com.android.org.conscrypt.HpkeTestVectorsTest.getHpkeEncryptionRecords;
@@ -29,8 +34,13 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
+import com.android.org.conscrypt.HpkeTestVectorsTest.HpkeData;
+import com.android.org.conscrypt.HpkeTestVectorsTest.HpkeEncryptionData;
+import com.android.org.conscrypt.java.security.DefaultKeys;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -39,9 +49,6 @@ import java.security.Provider;
 import java.security.PublicKey;
 import java.security.Security;
 import java.util.List;
-
-import com.android.org.conscrypt.HpkeTestVectorsTest.HpkeData;
-import com.android.org.conscrypt.HpkeTestVectorsTest.HpkeEncryptionData;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -134,6 +141,61 @@ public class DuckTypedHpkeSpiTest {
         for (HpkeData record : records) {
             testHpkeEncryption(record);
         }
+    }
+
+    @Test
+    public void initInvalidKeys() throws Exception {
+        HpkeContextSender sender = HpkeContextSender.getInstance(DEFAULT_SUITE_NAME);
+        PublicKey dhKey = DefaultKeys.getPublicKey("DH");
+
+        assertThrows(InvalidKeyException.class, () -> sender.init(null, null));
+        assertThrows(InvalidKeyException.class, () -> sender.init(null, DEFAULT_INFO));
+        // DH keys not supported
+        assertThrows(InvalidKeyException.class, () -> sender.init(dhKey, DEFAULT_INFO));
+        HpkeContextRecipient recipient = HpkeContextRecipient.getInstance(DEFAULT_SUITE_NAME);
+        final PrivateKey invalidKey = DefaultKeys.getPrivateKey("DH");
+        assertThrows(NullPointerException.class,
+                () -> recipient.init(/* enc= */ null, DEFAULT_SK, DEFAULT_INFO));
+        assertThrows(InvalidKeyException.class,
+                () -> recipient.init(DEFAULT_ENC, /* privateKey= */ null, DEFAULT_INFO));
+        // Incorrect enc size
+        assertThrows(InvalidKeyException.class,
+                () -> recipient.init(new byte[1], DEFAULT_SK, DEFAULT_INFO));
+        assertThrows(InvalidKeyException.class,
+                () -> recipient.init(DEFAULT_ENC, invalidKey, DEFAULT_INFO));
+    }
+
+    @Test
+    public void testSeal_missingRequiredParameters_throwNullException() throws Exception {
+        HpkeContextSender ctxSender = HpkeContextSender.getInstance(DEFAULT_SUITE_NAME);
+        ctxSender.init(DEFAULT_PK, DEFAULT_INFO);
+        assertThrows(NullPointerException.class,
+                () -> ctxSender.seal(/* plaintext= */ null, DEFAULT_AAD));
+    }
+
+    @Test
+    public void testExport_lowerEdgeLength() throws Exception {
+        final HpkeContextSender ctxSender = createDefaultHpkeContextSender();
+        final byte[] enc = ctxSender.getEncapsulated();
+        final byte[] export = ctxSender.export(/* length= */ 0, DEFAULT_EXPORTER_CONTEXT);
+        assertNotNull(enc);
+        assertNotNull(export);
+        assertThrows(IllegalArgumentException.class,
+                () -> ctxSender.export(/* length= */ -1, DEFAULT_EXPORTER_CONTEXT));
+    }
+
+    @Test
+    public void testInitUnsupportedModes() throws Exception {
+        HpkeContextSender sender = HpkeContextSender.getInstance(DEFAULT_SUITE_NAME);
+        byte[] psk = "Shhh! Secret!".getBytes(StandardCharsets.UTF_8);
+        byte[] pskId = "id".getBytes(StandardCharsets.UTF_8);
+
+        assertThrows(UnsupportedOperationException.class,
+                () -> sender.init(DEFAULT_PK, DEFAULT_INFO, DEFAULT_SK));
+        assertThrows(UnsupportedOperationException.class,
+                () -> sender.init(DEFAULT_PK, DEFAULT_INFO, psk, pskId));
+        assertThrows(UnsupportedOperationException.class,
+                () -> sender.init(DEFAULT_PK, DEFAULT_INFO, DEFAULT_SK, psk, pskId));
     }
 
     // Copied from HpkeTestVectorsTest but with extra checks to ensure we are operating on

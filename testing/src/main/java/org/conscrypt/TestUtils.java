@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -51,7 +52,6 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Predicate;
-
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLEngineResult;
@@ -807,14 +807,17 @@ public final class TestUtils {
         return name.startsWith("macosx") || name.startsWith("osx");
     }
 
-    // Find base method via reflection due to visibility issues when building with Gradle.
+    // Find base method via reflection due to possible version skew on Android
+    // and visibility issues when building with Gradle.
     public static boolean isTlsV1Deprecated() {
         try {
             return (Boolean) conscryptClass("Platform")
                     .getDeclaredMethod("isTlsV1Deprecated")
                     .invoke(null);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e) {
+            return false;
+        } catch (ClassNotFoundException | IllegalAccessException | InvocationTargetException e) {
+            throw new IllegalStateException("Reflection failure", e);
         }
     }
 }

@@ -16,35 +16,60 @@
 
 package org.conscrypt;
 
+import java.util.Arrays;
+
 /**
  * Compatibility utility for Arrays.
  */
-final class ArrayUtils {
+public final class ArrayUtils {
     private ArrayUtils() {}
 
     /**
      * Checks that the range described by {@code offset} and {@code count}
      * doesn't exceed {@code arrayLength}.
      */
-    static void checkOffsetAndCount(int arrayLength, int offset, int count) {
+    public static void checkOffsetAndCount(int arrayLength, int offset, int count) {
         if ((offset | count) < 0 || offset > arrayLength || arrayLength - offset < count) {
             throw new ArrayIndexOutOfBoundsException("length=" + arrayLength + "; regionStart="
                     + offset + "; regionLength=" + count);
         }
     }
 
-    static String[] concatValues(String[] a1, String... values) {
+    @SafeVarargs
+    public static <T> T[] concatValues(T[] a1, T... values) {
         return concat (a1, values);
     }
 
-    static String[] concat(String[] a1, String[] a2) {
-        String[] result = new String[a1.length + a2.length];
-        int offset = 0;
-        for (int i = 0; i < a1.length; i++, offset++) {
-            result[offset] = a1[i];
+    public static <T> T[] concat(T[] a1, T[] a2) {
+        T[] result = Arrays.copyOf(a1, a1.length + a2.length);
+        System.arraycopy(a2, 0, result, a1.length, a2.length);
+        return result;
+    }
+
+    public static byte[] concat(byte[] a1, byte[] a2) {
+        byte[] result = Arrays.copyOf(a1, a1.length + a2.length);
+        System.arraycopy(a2, 0, result, a1.length, a2.length);
+        return result;
+    }
+
+    public static boolean startsWith(byte[] array, byte[] startsWith) {
+        if (array.length < startsWith.length) {
+            return false;
         }
-        for (int i = 0; i < a2.length; i++, offset++) {
-            result[offset] = a2[i];
+        for (int i = 0; i < startsWith.length; i++) {
+            if (array[i] != startsWith[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static byte[] reverse(byte[] array) {
+        byte[] result = new byte[array.length];
+        int front = 0;
+        int back = array.length - 1;
+        while (back >= 0) {
+            result[front++] = array[back--];
         }
         return result;
     }

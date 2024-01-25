@@ -570,6 +570,31 @@ java_library {
     min_sdk_version: "S",
 }
 
+// Interim library for accessing pseudo-JCA Conscrypt APIs such as HPKE until
+// public APIs are available.  No stability guarentees, so limited visibility
+// in order to track users.
+java_library {
+    name: "conscrypt-lite",
+    visibility: [
+        "//external/conscrypt:__subpackages__",
+    ],
+    device_supported: true,
+    host_supported: true,
+    srcs: [
+        "common/src/main/java/**/ArrayUtils.java",
+        "common/src/main/java/**/DuckTypedHpkeSpi.java",
+        "common/src/main/java/**/Hkdf.java",
+        "common/src/main/java/**/HpkeContext.java",
+        "common/src/main/java/**/HpkeContextRecipient.java",
+        "common/src/main/java/**/HpkeContextSender.java",
+        "common/src/main/java/**/HpkeSpi.java",
+        "common/src/main/java/**/HpkeSuite.java",
+        "common/src/main/java/**/Internal.java",
+        "common/src/main/java/**/XdhKeySpec.java",
+    ],
+    jarjar_rules: "conscrypt-lite-jarjar-rules.txt",
+}
+
 // Static unbundled Conscrypt crypto JNI library
 cc_library_static {
     name: "libconscrypt_static",

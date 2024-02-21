@@ -31,7 +31,6 @@ java_library {
     srcs: [
         "src/java/**/*.java",
     ],
-    platform_apis: true,
     libs: ["junit"],
     static_libs: [
         "androidx.test.runner",

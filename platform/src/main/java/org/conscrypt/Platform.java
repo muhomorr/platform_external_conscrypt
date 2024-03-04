@@ -491,8 +491,7 @@ final class Platform {
     }
 
     static boolean isCTVerificationRequired(String hostname) {
-        return NetworkSecurityPolicy.getInstance().isCertificateTransparencyVerificationRequired(
-                hostname);
+        return false;
     }
 
     static boolean supportsConscryptCertStore() {

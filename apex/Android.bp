@@ -78,6 +78,7 @@ apex {
     visibility: [
         "//external/conscrypt",
         "//vendor:__subpackages__",
+        "//packages/modules/common/build",
     ],
     defaults: ["com.android.conscrypt-defaults"],
     manifest: "apex_manifest.json",

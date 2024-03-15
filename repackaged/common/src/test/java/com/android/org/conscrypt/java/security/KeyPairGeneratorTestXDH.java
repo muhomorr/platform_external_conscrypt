@@ -31,6 +31,6 @@ public class KeyPairGeneratorTestXDH extends AbstractKeyPairGeneratorTest {
 
     @Override
     protected int getKeySize() {
-        return 256;
+        return 255;
     }
 }

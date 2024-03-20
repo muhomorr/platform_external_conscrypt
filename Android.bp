@@ -145,6 +145,7 @@ cc_library_host_shared {
     name: "libconscrypt_openjdk_jni",
     visibility: [
         "//build/make/tools/signapk",
+        "//cts/hostsidetests/library", // from CtsUseNativeLibraryBuildPackage
         "//tools/apksig",
         "//vendor:__subpackages__",
     ],

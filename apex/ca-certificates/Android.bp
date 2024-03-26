@@ -29,8 +29,7 @@ license {
     license_text: [],
 }
 
-prebuilt_etc {
+prebuilt_etc_cacerts {
     name: "cacerts_apex",
     srcs: ["files/*"],
-    sub_dir: "",
 }

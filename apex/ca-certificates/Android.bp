@@ -29,10 +29,7 @@ license {
     license_text: [],
 }
 
-// This is a temporary solution for adding certificates to the apex.
-ca_certificates_apex {
+prebuilt_etc_cacerts {
     name: "cacerts_apex",
-    src_dir: "files",
-    dest_dir: "",
-    module_name_prefix: "target-cacert-apex-",
+    srcs: ["files/*"],
 }

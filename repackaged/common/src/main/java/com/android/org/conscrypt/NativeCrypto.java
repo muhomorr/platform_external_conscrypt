@@ -540,8 +540,8 @@ public final class NativeCrypto {
 
     static native byte[] X509_get_serialNumber(long x509ctx, OpenSSLX509Certificate holder);
 
-    static native void X509_verify(long x509ctx, OpenSSLX509Certificate holder, NativeRef.EVP_PKEY pkeyCtx)
-            throws BadPaddingException;
+    static native void X509_verify(long x509ctx, OpenSSLX509Certificate holder,
+            NativeRef.EVP_PKEY pkeyCtx) throws BadPaddingException, IllegalBlockSizeException;
 
     static native byte[] get_X509_tbs_cert(long x509ctx, OpenSSLX509Certificate holder);
 
@@ -810,9 +810,8 @@ public final class NativeCrypto {
 
     // --- SSL handling --------------------------------------------------------
 
-    static final String OBSOLETE_PROTOCOL_SSLV3 = "SSLv3";
-    private static final String DEPRECATED_PROTOCOL_TLSV1 = "TLSv1";
-    private static final String DEPRECATED_PROTOCOL_TLSV1_1 = "TLSv1.1";
+    static final String DEPRECATED_PROTOCOL_TLSV1 = "TLSv1";
+    static final String DEPRECATED_PROTOCOL_TLSV1_1 = "TLSv1.1";
     private static final String SUPPORTED_PROTOCOL_TLSV1_2 = "TLSv1.2";
     static final String SUPPORTED_PROTOCOL_TLSV1_3 = "TLSv1.3";
 
@@ -1052,6 +1051,12 @@ public final class NativeCrypto {
                     DEPRECATED_PROTOCOL_TLSV1_1,
             };
 
+    private static final String[] SUPPORTED_PROTOCOLS_TLSV1 = Platform.isTlsV1Supported()
+            ? new String[] {
+                DEPRECATED_PROTOCOL_TLSV1,
+                DEPRECATED_PROTOCOL_TLSV1_1,
+            } : new String[0];
+
     /** Protocols to enable by default when "TLSv1.3" is requested. */
     static final String[] TLSV13_PROTOCOLS = ArrayUtils.concatValues(
             ENABLED_PROTOCOLS_TLSV1, SUPPORTED_PROTOCOL_TLSV1_2, SUPPORTED_PROTOCOL_TLSV1_3);
@@ -1071,12 +1076,13 @@ public final class NativeCrypto {
     static final String[] TLSV1_PROTOCOLS = TLSV11_PROTOCOLS;
 
     static final String[] DEFAULT_PROTOCOLS = TLSV13_PROTOCOLS;
-    private static final String[] SUPPORTED_PROTOCOLS = new String[] {
-            DEPRECATED_PROTOCOL_TLSV1,
-            DEPRECATED_PROTOCOL_TLSV1_1,
+
+    // If we ever get a new protocol go look for tests which are skipped using
+    // assumeTlsV11Enabled()
+    private static final String[] SUPPORTED_PROTOCOLS = ArrayUtils.concatValues(
+            SUPPORTED_PROTOCOLS_TLSV1,
             SUPPORTED_PROTOCOL_TLSV1_2,
-            SUPPORTED_PROTOCOL_TLSV1_3,
-    };
+            SUPPORTED_PROTOCOL_TLSV1_3);
 
     public static String[] getDefaultProtocols() {
         if (Platform.isTlsV1Deprecated()) {
@@ -1153,11 +1159,7 @@ public final class NativeCrypto {
             if (protocol == null) {
                 throw new IllegalArgumentException("protocols contains null");
             }
-            if (!protocol.equals(DEPRECATED_PROTOCOL_TLSV1)
-                    && !protocol.equals(DEPRECATED_PROTOCOL_TLSV1_1)
-                    && !protocol.equals(SUPPORTED_PROTOCOL_TLSV1_2)
-                    && !protocol.equals(SUPPORTED_PROTOCOL_TLSV1_3)
-                    && !protocol.equals(OBSOLETE_PROTOCOL_SSLV3)) {
+            if (!Arrays.asList(SUPPORTED_PROTOCOLS).contains(protocol)) {
                 throw new IllegalArgumentException("protocol " + protocol + " is not supported");
             }
         }

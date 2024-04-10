@@ -20,6 +20,8 @@ package com.android.org.conscrypt.javax.net.ssl;
 import static com.android.org.conscrypt.TestUtils.UTF_8;
 import static com.android.org.conscrypt.TestUtils.isLinux;
 import static com.android.org.conscrypt.TestUtils.isOsx;
+import static com.android.org.conscrypt.TestUtils.isTlsV1Deprecated;
+import static com.android.org.conscrypt.TestUtils.isTlsV1Supported;
 import static com.android.org.conscrypt.TestUtils.isWindows;
 import static com.android.org.conscrypt.TestUtils.osName;
 import static org.junit.Assert.assertArrayEquals;
@@ -1936,15 +1938,40 @@ public class SSLSocketVersionCompatibilityTest {
                 .build();
         final SSLSocket client =
                 (SSLSocket) context.clientContext.getSocketFactory().createSocket();
-        // For app compatibility, SSLv3 is stripped out when setting only.
-        client.setEnabledProtocols(new String[] {"SSLv3"});
+        assertThrows(IllegalArgumentException.class, () -> client.setEnabledProtocols(new String[] {"SSLv3"}));
+        assertThrows(IllegalArgumentException.class, () -> client.setEnabledProtocols(new String[] {"SSL"}));
+    }
+
+    @Test
+    public void test_SSLSocket_TLSv1Supported() throws Exception {
+        assumeTrue(isTlsV1Supported());
+        TestSSLContext context = new TestSSLContext.Builder()
+                .clientProtocol(clientVersion)
+                .serverProtocol(serverVersion)
+                .build();
+        final SSLSocket client =
+                (SSLSocket) context.clientContext.getSocketFactory().createSocket();
+        client.setEnabledProtocols(new String[] {"TLSv1", "TLSv1.1"});
+        assertEquals(2, client.getEnabledProtocols().length);
+    }
+
+    @Test
+    public void test_SSLSocket_TLSv1Unsupported() throws Exception {
+        assumeFalse(isTlsV1Supported());
+        TestSSLContext context = new TestSSLContext.Builder()
+                .clientProtocol(clientVersion)
+                .serverProtocol(serverVersion)
+                .build();
+        final SSLSocket client =
+                (SSLSocket) context.clientContext.getSocketFactory().createSocket();
+        client.setEnabledProtocols(new String[] {"TLSv1", "TLSv1.1"});
         assertEquals(0, client.getEnabledProtocols().length);
-        try {
-            client.setEnabledProtocols(new String[] {"SSL"});
-            fail("SSLSocket should not support SSL protocol");
-        } catch (IllegalArgumentException expected) {
-            // Ignored.
-        }
+    }
+
+    @Test
+    public void test_TLSv1Unsupported_notEnabled() throws Exception {
+        assumeTrue(!isTlsV1Supported());
+        assertTrue(isTlsV1Deprecated());
     }
 
     // Under some circumstances, the file descriptor socket may get finalized but still

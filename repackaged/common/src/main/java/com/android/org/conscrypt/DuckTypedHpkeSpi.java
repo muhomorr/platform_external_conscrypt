@@ -78,37 +78,37 @@ public class DuckTypedHpkeSpi implements HpkeSpi {
     } catch (IllegalAccessException e) {
       throw new IllegalStateException("DuckTypedHpkSpi internal error", e);
     } catch (InvocationTargetException e) {
-      if (e.getCause() instanceof RuntimeException) {
-        throw (RuntimeException) e.getCause();
-      }
+        if (e.getCause() instanceof RuntimeException) {
+            throw (RuntimeException) e.getCause();
+        }
       throw e;
     }
   }
 
   private void invokeWithPossibleInvalidKey(String methodName, Object... args)
           throws InvalidKeyException {
-    try {
-      invoke(methodName, args);
-    } catch (InvocationTargetException e) {
-      Throwable cause = e.getCause();
-      if (cause instanceof InvalidKeyException) {
-        throw (InvalidKeyException) cause;
+      try {
+          invoke(methodName, args);
+      } catch (InvocationTargetException e) {
+          Throwable cause = e.getCause();
+          if (cause instanceof InvalidKeyException) {
+              throw (InvalidKeyException) cause;
+          }
+          throw new IllegalStateException(cause);
       }
-      throw new IllegalStateException(cause);
-    }
   }
 
   private Object invokeWithPossibleGeneralSecurity(String methodName, Object... args)
           throws GeneralSecurityException {
-    try {
-      return invoke(methodName, args);
-    } catch (InvocationTargetException e) {
-      Throwable cause = e.getCause();
-      if (cause instanceof GeneralSecurityException) {
-        throw (GeneralSecurityException) cause;
+      try {
+          return invoke(methodName, args);
+      } catch (InvocationTargetException e) {
+          Throwable cause = e.getCause();
+          if (cause instanceof GeneralSecurityException) {
+              throw (GeneralSecurityException) cause;
+          }
+          throw new IllegalStateException(cause);
       }
-      throw new IllegalStateException(cause);
-    }
   }
 
   private Object invokeNoChecked(String methodName, Object... args) {
@@ -127,40 +127,40 @@ public class DuckTypedHpkeSpi implements HpkeSpi {
   @Override
   public void engineInitSender(PublicKey recipientKey, byte[] info, PrivateKey senderKey,
           byte[] psk, byte[] pskId) throws InvalidKeyException {
-    invokeWithPossibleInvalidKey("engineInitSender", recipientKey, info, senderKey, psk, pskId);
+      invokeWithPossibleInvalidKey("engineInitSender", recipientKey, info, senderKey, psk, pskId);
   }
 
   @Override
   public void engineInitSenderForTesting(PublicKey recipientKey, byte[] info, PrivateKey senderKey,
           byte[] psk, byte[] pskId, byte[] sKe) throws InvalidKeyException {
-    invokeWithPossibleInvalidKey(
-            "engineInitSenderForTesting", recipientKey, info, senderKey, psk, pskId, sKe);
+      invokeWithPossibleInvalidKey(
+              "engineInitSenderForTesting", recipientKey, info, senderKey, psk, pskId, sKe);
   }
 
   @Override
   public void engineInitRecipient(byte[] encapsulated, PrivateKey key, byte[] info,
           PublicKey senderKey, byte[] psk, byte[] psk_id) throws InvalidKeyException {
-    invokeWithPossibleInvalidKey(
-            "engineInitRecipient", encapsulated, key, info, senderKey, psk, psk_id);
+      invokeWithPossibleInvalidKey(
+              "engineInitRecipient", encapsulated, key, info, senderKey, psk, psk_id);
   }
 
   @Override
   public byte[] engineSeal(byte[] plaintext, byte[] aad) {
-    return (byte[]) invokeNoChecked("engineSeal", plaintext, aad);
+      return (byte[]) invokeNoChecked("engineSeal", plaintext, aad);
   }
 
   @Override
   public byte[] engineExport(int length, byte[] exporterContext) {
-    return (byte[]) invokeNoChecked("engineExport", length, exporterContext);
+      return (byte[]) invokeNoChecked("engineExport", length, exporterContext);
   }
 
   @Override
   public byte[] engineOpen(byte[] ciphertext, byte[] aad) throws GeneralSecurityException {
-    return (byte[]) invokeWithPossibleGeneralSecurity("engineOpen", ciphertext, aad);
+      return (byte[]) invokeWithPossibleGeneralSecurity("engineOpen", ciphertext, aad);
   }
 
   @Override
   public byte[] getEncapsulated() {
-    return (byte[]) invokeNoChecked("getEncapsulated");
+      return (byte[]) invokeNoChecked("getEncapsulated");
   }
 }

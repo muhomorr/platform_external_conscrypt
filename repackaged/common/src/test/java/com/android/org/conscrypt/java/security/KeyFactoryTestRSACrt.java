@@ -75,19 +75,19 @@ public class KeyFactoryTestRSACrt extends
 
   @Test
   public void javaSerialization() throws Exception {
-    PrivateKey privateKey = DefaultKeys.getPrivateKey("RSA");
-    assertTrue(privateKey instanceof RSAPrivateCrtKey);
+      PrivateKey privateKey = DefaultKeys.getPrivateKey("RSA");
+      assertTrue(privateKey instanceof RSAPrivateCrtKey);
 
-    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-    ObjectOutputStream out = new ObjectOutputStream(bos);
-    out.writeObject(privateKey);
+      ByteArrayOutputStream bos = new ByteArrayOutputStream();
+      ObjectOutputStream out = new ObjectOutputStream(bos);
+      out.writeObject(privateKey);
 
-    ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
-    ObjectInputStream in = new ObjectInputStream(bis);
-    PrivateKey copy = (PrivateKey) in.readObject();
-    assertTrue(copy instanceof RSAPrivateCrtKey);
+      ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+      ObjectInputStream in = new ObjectInputStream(bis);
+      PrivateKey copy = (PrivateKey) in.readObject();
+      assertTrue(copy instanceof RSAPrivateCrtKey);
 
-    assertEquals(privateKey.getFormat(), copy.getFormat());
-    assertArrayEquals(privateKey.getEncoded(), copy.getEncoded());
+      assertEquals(privateKey.getFormat(), copy.getFormat());
+      assertArrayEquals(privateKey.getEncoded(), copy.getEncoded());
   }
 }

@@ -131,8 +131,8 @@ public class HpkeImpl implements HpkeSpi {
     checkInitialised();
     long maxLength = hpkeSuite.getKdf().maxExportLength();
     if (length < 0 || length > maxLength) {
-      throw new IllegalArgumentException(
-              "Export length must be between 0 and " + maxLength + ", but was " + length);
+        throw new IllegalArgumentException(
+                "Export length must be between 0 and " + maxLength + ", but was " + length);
     }
     return NativeCrypto.EVP_HPKE_CTX_export(ctx, exporterContext, length);
   }

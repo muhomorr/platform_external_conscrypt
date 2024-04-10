@@ -1085,4 +1085,8 @@ final class Platform {
     public static boolean isTlsV1Deprecated() {
         return true;
     }
+
+    public static boolean isTlsV1Supported() {
+        return true;
+    }
 }

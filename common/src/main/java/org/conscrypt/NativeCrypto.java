@@ -369,6 +369,8 @@ public final class NativeCrypto {
 
     static native byte[] CMAC_Final(NativeRef.CMAC_CTX ctx);
 
+    static native void CMAC_Reset(NativeRef.CMAC_CTX ctx);
+
     // --- HMAC functions ------------------------------------------------------
 
     static native long HMAC_CTX_new();
@@ -382,6 +384,8 @@ public final class NativeCrypto {
     static native void HMAC_UpdateDirect(NativeRef.HMAC_CTX ctx, long inPtr, int inLength);
 
     static native byte[] HMAC_Final(NativeRef.HMAC_CTX ctx);
+
+    static native void HMAC_Reset(NativeRef.HMAC_CTX ctx);
 
     // --- HPKE functions ------------------------------------------------------
     static native byte[] EVP_HPKE_CTX_export(

@@ -153,10 +153,19 @@ public final class StandardNames {
             provideCipherPaddings("AES", new String[] {"PKCS7Padding"});
         }
 
-        provideSslContextEnabledProtocols("TLS", TLSVersion.TLSv12, TLSVersion.TLSv13);
-        provideSslContextEnabledProtocols("TLSv1.2", TLSVersion.TLSv12, TLSVersion.TLSv12);
-        provideSslContextEnabledProtocols("TLSv1.3", TLSVersion.TLSv12, TLSVersion.TLSv13);
-        provideSslContextEnabledProtocols("Default", TLSVersion.TLSv12, TLSVersion.TLSv13);
+        if (TestUtils.isTlsV1Supported()) {
+            provideSslContextEnabledProtocols("TLS", TLSVersion.TLSv1, TLSVersion.TLSv13);
+            provideSslContextEnabledProtocols("TLSv1", TLSVersion.TLSv1, TLSVersion.TLSv12);
+            provideSslContextEnabledProtocols("TLSv1.1", TLSVersion.TLSv1, TLSVersion.TLSv12);
+            provideSslContextEnabledProtocols("TLSv1.2", TLSVersion.TLSv1, TLSVersion.TLSv12);
+            provideSslContextEnabledProtocols("TLSv1.3", TLSVersion.TLSv1, TLSVersion.TLSv13);
+            provideSslContextEnabledProtocols("Default", TLSVersion.TLSv1, TLSVersion.TLSv13);
+        } else {
+            provideSslContextEnabledProtocols("TLS", TLSVersion.TLSv12, TLSVersion.TLSv13);
+            provideSslContextEnabledProtocols("TLSv1.2", TLSVersion.TLSv12, TLSVersion.TLSv12);
+            provideSslContextEnabledProtocols("TLSv1.3", TLSVersion.TLSv12, TLSVersion.TLSv13);
+            provideSslContextEnabledProtocols("Default", TLSVersion.TLSv12, TLSVersion.TLSv13);
+        }
     }
 
     public static final String SSL_CONTEXT_PROTOCOLS_DEFAULT = "Default";

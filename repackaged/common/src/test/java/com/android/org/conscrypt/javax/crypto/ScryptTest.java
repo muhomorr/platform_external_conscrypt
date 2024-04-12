@@ -23,6 +23,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
+import com.android.org.conscrypt.ScryptKeySpec;
+import com.android.org.conscrypt.TestUtils;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.spec.KeySpec;
@@ -31,18 +33,36 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.SecretKeySpec;
-import com.android.org.conscrypt.ScryptKeySpec;
-import com.android.org.conscrypt.TestUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
 /**
  * @hide This class is not part of the Android public SDK API
  */
-@RunWith(JUnit4.class)
+@RunWith(Parameterized.class)
 public final class ScryptTest {
+    @Parameters(name = "{0}")
+    public static String[] params() {
+        return new String[] {"SCRYPT", "1.3.6.1.4.1.11591.4.11", "OID.1.3.6.1.4.1.11591.4.11"};
+    }
+
+    @Parameter public String alias;
+
+    // One of the test vectors from RFC 7914
+    private static final char[] TEST_PASSWORD = "password".toCharArray();
+    private static final byte[] TEST_SALT = "NaCl".getBytes(StandardCharsets.UTF_8);
+    private static final int TEST_COST = 1024;
+    private static final int TEST_BLOCKSIZE = 8;
+    private static final int TEST_PARALLELIZATION = 16;
+    private static final int TEST_KEY_SIZE = 512;
+    private static final byte[] TEST_KEY =
+            decodeHex("fdbabe1c9d3472007856e7190d01e9fe7c6ad7cbc8237830e77376634b373162"
+                    + "2eaf30d92e22a3886ff109279d9830dac727afb94a83ee6d8360cbdfa2cc0640");
+
     private final List<String[]> testVectors = readTestVectors();
 
     // Column indices in test vector CSV file
@@ -60,24 +80,13 @@ public final class ScryptTest {
 
     @Test
     public void smokeTest() throws Exception {
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("Scrypt");
-        assertNotNull(factory);
+        SecretKeyFactory factory = SecretKeyFactory.getInstance(alias);
+        assertEquals(alias, factory.getAlgorithm());
 
-        // One of the test vectors from RFC 7914
-        ScryptKeySpec spec =
-                new ScryptKeySpec(
-                        "password".toCharArray(),
-                        "NaCl".getBytes(StandardCharsets.UTF_8),
-                        1024,
-                        8,
-                        16,
-                        512);
+        ScryptKeySpec spec = new ScryptKeySpec(TEST_PASSWORD, TEST_SALT, TEST_COST, TEST_BLOCKSIZE,
+                TEST_PARALLELIZATION, TEST_KEY_SIZE);
         SecretKey key = factory.generateSecret(spec);
-        assertNotNull(key);
-
-        assertArrayEquals(
-                decodeHex("fdbabe1c9d3472007856e7190d01e9fe7c6ad7cbc8237830e77376634b3731622eaf30d92e22a3886ff109279d9830dac727afb94a83ee6d8360cbdfa2cc0640"),
-                key.getEncoded());
+        assertArrayEquals(TEST_KEY, key.getEncoded());
 
         // Convert for use with AES
         SecretKeySpec aesKey = makeAesKeySpec(key);
@@ -88,19 +97,13 @@ public final class ScryptTest {
 
     @Test
     public void duckTypingTest() throws Exception {
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("Scrypt");
-        assertNotNull(factory);
+        SecretKeyFactory factory = SecretKeyFactory.getInstance(alias);
 
-        // One of the test vectors from RFC 7914
-        KeySpec spec =
-                new MyPrivateKeySpec(
-                        "password".toCharArray(), "NaCl".getBytes(StandardCharsets.UTF_8), 1024, 8, 16, 512);
+        KeySpec spec = new MyPrivateKeySpec(TEST_PASSWORD, TEST_SALT, TEST_COST, TEST_BLOCKSIZE,
+                TEST_PARALLELIZATION, TEST_KEY_SIZE);
+
         SecretKey key = factory.generateSecret(spec);
-        assertNotNull(key);
-
-        assertArrayEquals(
-                decodeHex("fdbabe1c9d3472007856e7190d01e9fe7c6ad7cbc8237830e77376634b3731622eaf30d92e22a3886ff109279d9830dac727afb94a83ee6d8360cbdfa2cc0640"),
-                key.getEncoded());
+        assertArrayEquals(TEST_KEY, key.getEncoded());
     }
 
     private SecretKeySpec makeAesKeySpec(SecretKey key) {
@@ -112,7 +115,7 @@ public final class ScryptTest {
     }
 
     private void checkKeyIsUsableWithAes(SecretKeySpec spec) throws Exception {
-        // Terrible encryption mode but saves messing with IVs and padding which don't matter here.
+        // Terrible encryption mode but saves messing with IVs which don't matter here.
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
 
         cipher.init(Cipher.ENCRYPT_MODE, spec);
@@ -136,7 +139,7 @@ public final class ScryptTest {
             byte[] expectedBytes = decodeHex(entry[KEY_INDEX]);
 
             ScryptKeySpec spec = new ScryptKeySpec(password, salt, n, r, p, expectedBytes.length * 8);
-            SecretKeyFactory factory = SecretKeyFactory.getInstance("Scrypt");
+            SecretKeyFactory factory = SecretKeyFactory.getInstance(alias);
             SecretKey key = factory.generateSecret(spec);
             assertNotNull(key);
             assertArrayEquals(expectedBytes, key.getEncoded());

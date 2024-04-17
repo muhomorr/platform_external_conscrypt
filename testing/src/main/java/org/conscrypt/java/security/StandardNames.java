@@ -171,7 +171,7 @@ public final class StandardNames {
     public static final Set<String> SSL_CONTEXT_ALL = new HashSet<String>(
             Arrays.asList("TLS", "TLSv1", "TLSv1.1", "TLSv1.2", "TLSv1.3"));
     public static final Set<String> SSL_CONTEXT_PROTOCOLS = new HashSet<String>(
-            Arrays.asList(SSL_CONTEXT_PROTOCOLS_DEFAULT, "TLS", "TLSv1", "TLSv1.1", "TLSv1.2", "TLSv1.3"));
+            Arrays.asList(SSL_CONTEXT_PROTOCOLS_DEFAULT, "TLS", "TLSv1.2", "TLSv1.3"));
     public static final Set<String> SSL_CONTEXT_PROTOCOLS_WITH_DEFAULT_CONFIG = new HashSet<String>(
             Arrays.asList(SSL_CONTEXT_PROTOCOLS_DEFAULT, "TLS", "TLSv1.3"));
     // Deprecated TLS protocols... May or may not be present or enabled.

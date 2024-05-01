@@ -819,6 +819,6 @@ final class Platform {
     }
 
     public static boolean isTlsV1Supported() {
-        return false;
+        return true;
     }
 }

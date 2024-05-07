@@ -1929,6 +1929,7 @@ public class SSLSocketVersionCompatibilityTest {
     }
 
     @Test
+    @Ignore("Fails with conscrypt module updates due to SSL removal")
     public void test_SSLSocket_SSLv3Unsupported() throws Exception {
         TestSSLContext context = new TestSSLContext.Builder()
                 .clientProtocol(clientVersion)

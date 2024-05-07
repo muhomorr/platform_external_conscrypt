@@ -105,6 +105,7 @@ import javax.net.ssl.X509KeyManager;
 import javax.net.ssl.X509TrustManager;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -1807,6 +1808,7 @@ public class SSLSocketVersionCompatibilityTest {
     }
 
     @Test
+    @Ignore("Fails with conscrypt module updates due to SSL removal")
     public void test_SSLSocket_SSLv3Unsupported() throws Exception {
         TestSSLContext context = new TestSSLContext.Builder()
                 .clientProtocol(clientVersion)

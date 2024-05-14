@@ -73,6 +73,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509ExtendedTrustManager;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -425,6 +426,7 @@ public class SSLSocketTest {
      * lower span of contiguous protocols is used in practice.
      */
     @Test
+    @Ignore("Needs TLS 1.0 or 1.1 which are scheduled for deprecation")
     public void test_SSLSocket_noncontiguousProtocols_useLower() throws Exception {
         TestSSLContext c = TestSSLContext.create();
         SSLContext clientContext = c.clientContext;
@@ -458,6 +460,7 @@ public class SSLSocketTest {
      * for both client and server isn't supported by the other.
      */
     @Test
+    @Ignore("Needs TLS 1.0 or 1.1 which are scheduled for deprecation")
     public void test_SSLSocket_noncontiguousProtocols_canNegotiate() throws Exception {
         TestSSLContext c = TestSSLContext.create();
         SSLContext clientContext = c.clientContext;
@@ -1052,6 +1055,7 @@ public class SSLSocketTest {
     }
 
     @Test
+    @Ignore("Needs TLS 1.0 or 1.1 which are scheduled for deprecation")
     public void test_SSLSocket_sendsTlsFallbackScsv_InappropriateFallback_Failure()
             throws Exception {
         TestSSLContext context = TestSSLContext.create();
@@ -1105,6 +1109,7 @@ public class SSLSocketTest {
     }
 
     @Test
+    @Ignore("Needs TLS 1.0 or 1.1 which are scheduled for deprecation")
     public void test_SSLSocket_tlsFallback_byVersion() throws Exception {
         String[] supportedProtocols =
                 SSLContext.getDefault().getDefaultSSLParameters().getProtocols();

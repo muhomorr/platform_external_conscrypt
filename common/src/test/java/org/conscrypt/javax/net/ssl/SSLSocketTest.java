@@ -1011,6 +1011,7 @@ public class SSLSocketTest {
 
     // Confirms that communication without the TLS_FALLBACK_SCSV cipher works as it always did.
     @Test
+    @Ignore("Needs TLS 1.0 or 1.1 which are scheduled for deprecation")
     public void test_SSLSocket_sendsNoTlsFallbackScsv_Fallback_Success() throws Exception {
         TestSSLContext context = TestSSLContext.create();
         // TLS_FALLBACK_SCSV is only applicable to TLS <= 1.2

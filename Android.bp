@@ -277,9 +277,6 @@ java_library {
         "android.net.ssl",
         "com.android.org.conscrypt",
     ],
-    lint: {
-        baseline_filename: "lint-baseline.xml",
-    },
 }
 
 // Java library for use on host, e.g. by robolectric.
@@ -296,9 +293,6 @@ java_library {
     ],
     sdk_version: "none",
     system_modules: "none",
-    lint: {
-        baseline_filename: "lint-baseline.xml",
-    },
 }
 
 // Referenced implicitly from conscrypt.module.platform.api.
@@ -375,9 +369,6 @@ java_sdk_library {
     dist_stem: "conscrypt-coreplatform",
     // TODO: remove this when Conscrypt's @CorePlatformApi has been migrated to @SystemApi
     unsafe_ignore_missing_latest_api: true,
-    lint: {
-        baseline_filename: "lint-baseline.xml",
-    },
 }
 
 // A library containing the public API stubs of the Conscrypt module.
@@ -432,9 +423,6 @@ java_sdk_library {
     sdk_version: "none",
     system_modules: "art-module-public-api-stubs-system-modules",
     dist_group: "android",
-    lint: {
-        baseline_filename: "lint-baseline.xml",
-    },
 }
 
 // Referenced implicitly from conscrypt.module.intra.core.api.
@@ -494,9 +482,6 @@ java_sdk_library {
 
     // Don't copy any output files to the dist.
     no_dist: true,
-    lint: {
-        baseline_filename: "lint-baseline.xml",
-    },
 }
 
 // Platform conscrypt crypto JNI library
@@ -584,9 +569,6 @@ java_library {
     },
     // Make sure that this will be added to the sdk snapshot for S.
     min_sdk_version: "S",
-    lint: {
-        baseline_filename: "lint-baseline.xml",
-    },
 }
 
 // Interim library for accessing pseudo-JCA Conscrypt APIs such as HPKE until
@@ -687,9 +669,6 @@ java_test {
         },
     },
     java_version: "1.8",
-    lint: {
-        baseline_filename: "lint-baseline.xml",
-    },
 }
 
 // Make the conscrypt-benchmarks library.
@@ -727,9 +706,6 @@ java_test {
         },
     },
     java_version: "1.8",
-    lint: {
-        baseline_filename: "lint-baseline.xml",
-    },
 }
 
 // Device SDK exposed by the Conscrypt module.

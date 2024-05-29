@@ -87,6 +87,7 @@ apex {
         "com.android.conscrypt.ld.config.txt",
         "cacerts_apex",
     ],
+    min_sdk_version: "30",
 }
 
 // Encapsulate the contributions made by the com.android.conscrypt to the bootclasspath.

@@ -1938,8 +1938,15 @@ public class SSLSocketVersionCompatibilityTest {
                 .build();
         final SSLSocket client =
                 (SSLSocket) context.clientContext.getSocketFactory().createSocket();
-        assertThrows(IllegalArgumentException.class, () -> client.setEnabledProtocols(new String[] {"SSLv3"}));
-        assertThrows(IllegalArgumentException.class, () -> client.setEnabledProtocols(new String[] {"SSL"}));
+        // For app compatibility, SSLv3 is stripped out when setting only.
+        client.setEnabledProtocols(new String[] {"SSLv3"});
+        assertEquals(0, client.getEnabledProtocols().length);
+        try {
+            client.setEnabledProtocols(new String[] {"SSL"});
+            fail("SSLSocket should not support SSL protocol");
+        } catch (IllegalArgumentException expected) {
+            // Ignored.
+        }
     }
 
     @Test

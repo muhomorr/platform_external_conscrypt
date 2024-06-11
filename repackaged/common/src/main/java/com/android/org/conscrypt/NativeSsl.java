@@ -309,6 +309,7 @@ final class NativeSsl {
 
         if (parameters.getEnabledProtocols().length == 0 && parameters.isEnabledProtocolsFiltered) {
             throw new SSLHandshakeException("No enabled protocols; "
+                    + NativeCrypto.OBSOLETE_PROTOCOL_SSLV3 + ", "
                     + NativeCrypto.DEPRECATED_PROTOCOL_TLSV1
                     + " and " + NativeCrypto.DEPRECATED_PROTOCOL_TLSV1_1
                     + " are no longer supported and were filtered from the list");

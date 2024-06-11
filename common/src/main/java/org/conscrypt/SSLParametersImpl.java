@@ -150,11 +150,14 @@ final class SSLParametersImpl implements Cloneable {
         } else {
             String[] filteredProtocols =
                     filterFromProtocols(protocols, Arrays.asList(Platform.isTlsV1Supported()
-                        ? new String[0]
-                        : new String[] {
-                            NativeCrypto.DEPRECATED_PROTOCOL_TLSV1,
-                            NativeCrypto.DEPRECATED_PROTOCOL_TLSV1_1,
-                        }));
+                    ? new String[] {
+                        NativeCrypto.OBSOLETE_PROTOCOL_SSLV3,
+                    }
+                    : new String[] {
+                        NativeCrypto.OBSOLETE_PROTOCOL_SSLV3,
+                        NativeCrypto.DEPRECATED_PROTOCOL_TLSV1,
+                        NativeCrypto.DEPRECATED_PROTOCOL_TLSV1_1,
+                    }));
             isEnabledProtocolsFiltered = protocols.length != filteredProtocols.length;
             enabledProtocols = NativeCrypto.checkEnabledProtocols(filteredProtocols).clone();
         }
@@ -295,8 +298,11 @@ final class SSLParametersImpl implements Cloneable {
         }
         String[] filteredProtocols =
                 filterFromProtocols(protocols, Arrays.asList(Platform.isTlsV1Supported()
-                    ? new String[0]
+                    ? new String[] {
+                        NativeCrypto.OBSOLETE_PROTOCOL_SSLV3,
+                    }
                     : new String[] {
+                        NativeCrypto.OBSOLETE_PROTOCOL_SSLV3,
                         NativeCrypto.DEPRECATED_PROTOCOL_TLSV1,
                         NativeCrypto.DEPRECATED_PROTOCOL_TLSV1_1,
                     }));

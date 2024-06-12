@@ -186,35 +186,6 @@ public final class CertBlocklistImpl implements CertBlocklist {
             // src/test/resources/blocklist_test_ca.pem and
             // src/test/resources/blocklist_test_ca_key.pem.
             "bae78e6bed65a2bf60ddedde7fd91e825865e93d".getBytes(UTF_8),
-            // From
-            // http://src.chromium.org/viewvc/chrome/branches/782/src/net/base/x509_certificate.cc?r1=98750&r2=98749&pathrev=98750
-            // C=NL, O=DigiNotar, CN=DigiNotar Root CA/emailAddress=info@diginotar.nl
-            "410f36363258f30b347d12ce4863e433437806a8".getBytes(UTF_8),
-            // Subject: CN=DigiNotar Cyber CA
-            // Issuer: CN=GTE CyberTrust Global Root
-            "ba3e7bd38cd7e1e6b9cd4c219962e59d7a2f4e37".getBytes(UTF_8),
-            // Subject: CN=DigiNotar Services 1024 CA
-            // Issuer: CN=Entrust.net
-            "e23b8d105f87710a68d9248050ebefc627be4ca6".getBytes(UTF_8),
-            // Subject: CN=DigiNotar PKIoverheid CA Organisatie - G2
-            // Issuer: CN=Staat der Nederlanden Organisatie CA - G2
-            "7b2e16bc39bcd72b456e9f055d1de615b74945db".getBytes(UTF_8),
-            // Subject: CN=DigiNotar PKIoverheid CA Overheid en Bedrijven
-            // Issuer: CN=Staat der Nederlanden Overheid CA
-            "e8f91200c65cee16e039b9f883841661635f81c5".getBytes(UTF_8),
-            // From http://src.chromium.org/viewvc/chrome?view=rev&revision=108479
-            // Subject: O=Digicert Sdn. Bhd.
-            // Issuer: CN=GTE CyberTrust Global Root
-            "0129bcd5b448ae8d2496d1c3e19723919088e152".getBytes(UTF_8),
-            // Subject: CN=e-islem.kktcmerkezbankasi.org/emailAddress=ileti@kktcmerkezbankasi.org
-            // Issuer: CN=T\xC3\x9CRKTRUST Elektronik Sunucu Sertifikas\xC4\xB1 Hizmetleri
-            "5f3ab33d55007054bc5e3e5553cd8d8465d77c61".getBytes(UTF_8),
-            // Subject: CN=*.EGO.GOV.TR 93
-            // Issuer: CN=T\xC3\x9CRKTRUST Elektronik Sunucu Sertifikas\xC4\xB1 Hizmetleri
-            "783333c9687df63377efceddd82efa9101913e8e".getBytes(UTF_8),
-            // Subject: Subject: C=FR, O=DG Tr\xC3\xA9sor, CN=AC DG Tr\xC3\xA9sor SSL
-            // Issuer: C=FR, O=DGTPE, CN=AC DGTPE Signature Authentification
-            "3ecf4bbbe46096d514bb539bb913d77aa4ef31bf".getBytes(UTF_8),
     };
 
     static final byte[][] SHA256_BUILTINS = {
@@ -233,6 +204,10 @@ public final class CertBlocklistImpl implements CertBlocklist {
                 break;
             case "SHA-256":
                 bl = new HashSet<ByteString>(toByteStrings(SHA256_BUILTINS));
+                // Blocklist statically included in Conscrypt. See constants/.
+                for (byte[] staticPubKey : StaticBlocklist.PUBLIC_KEYS) {
+                    bl.add(new ByteString(staticPubKey));
+                }
                 break;
             default:
                 throw new RuntimeException(

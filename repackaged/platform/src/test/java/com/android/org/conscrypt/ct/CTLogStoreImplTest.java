@@ -106,8 +106,8 @@ public class CTLogStoreImplTest extends TestCase {
         // Empty log file, used to mask fallback logs
         assertEquals(null, CTLogStoreImpl.loadLog(new ByteArrayInputStream(new byte[0])));
         try {
-            CTLogStoreImpl.loadLog(new ByteArrayInputStream(
-                    "randomgarbage".getBytes(StandardCharsets.US_ASCII)));
+            CTLogStoreImpl.loadLog(
+                    new ByteArrayInputStream("randomgarbage".getBytes(StandardCharsets.US_ASCII)));
             fail("InvalidLogFileException not thrown");
         } catch (CTLogStoreImpl.InvalidLogFileException e) {}
 

@@ -160,8 +160,7 @@ public abstract class OpenSSLSocketImpl extends AbstractConscryptSocket {
     @android.compat.annotation.
     UnsupportedAppUsage(maxTargetSdk = dalvik.annotation.compat.VersionCodes.Q,
             publicAlternatives =
-                    "Use {@code "
-                    + "javax.net.ssl.SSLParameters#setApplicationProtocols(java.lang.String[])}.")
+                    "Use {@code javax.net.ssl.SSLParameters#setApplicationProtocols(java.lang.String[])}.")
     @Override
     @Deprecated
     public final void
@@ -189,8 +188,7 @@ public abstract class OpenSSLSocketImpl extends AbstractConscryptSocket {
     @android.compat.annotation.
     UnsupportedAppUsage(maxTargetSdk = dalvik.annotation.compat.VersionCodes.Q,
             publicAlternatives =
-                    "Use {@code "
-                    + "javax.net.ssl.SSLParameters#setApplicationProtocols(java.lang.String[])}.")
+                    "Use {@code javax.net.ssl.SSLParameters#setApplicationProtocols(java.lang.String[])}.")
     @libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
     @Override
     @Deprecated

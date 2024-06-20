@@ -14,6 +14,17 @@
         },
         {
           "include-filter": "libcore.java.net"
+        },
+        {
+          "include-filter": "android.net.ssl"
+        }
+      ]
+    },
+    {
+      "name": "CtsSecurityTestCases",
+      "options": [
+        {
+          "include-filter": "android.security.cts.CertBlocklistTest"
         }
       ]
     }

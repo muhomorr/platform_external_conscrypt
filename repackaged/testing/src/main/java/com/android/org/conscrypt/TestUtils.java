@@ -325,7 +325,7 @@ public final class TestUtils {
         }
     }
 
-    static SSLSocketFactory setUseEngineSocket(
+    public static SSLSocketFactory setUseEngineSocket(
             SSLSocketFactory conscryptFactory, boolean useEngineSocket) {
         try {
             Class<?> clazz = conscryptClass("Conscrypt");
@@ -338,7 +338,7 @@ public final class TestUtils {
         }
     }
 
-    static SSLServerSocketFactory setUseEngineSocket(
+    public static SSLServerSocketFactory setUseEngineSocket(
             SSLServerSocketFactory conscryptFactory, boolean useEngineSocket) {
         try {
             Class<?> clazz = conscryptClass("Conscrypt");
@@ -478,12 +478,12 @@ public final class TestUtils {
         return msg;
     }
 
-    static SSLContext newClientSslContext(Provider provider) {
+    public static SSLContext newClientSslContext(Provider provider) {
         SSLContext context = newContext(provider);
         return initClientSslContext(context);
     }
 
-    static SSLContext newServerSslContext(Provider provider) {
+    public static SSLContext newServerSslContext(Provider provider) {
         SSLContext context = newContext(provider);
         return initServerSslContext(context);
     }

@@ -617,6 +617,26 @@ cc_library_static {
     stl: "c++_shared",
 }
 
+
+java_library {
+    name: "conscrypt-test-support",
+    visibility: [
+        "//frameworks/base/apct-tests/perftests/core",
+    ],
+    device_supported: true,
+    host_supported: true,
+    srcs: [
+        "testing/src/main/java/**/*.java",
+        ":conscrypt-unbundled_generated_constants",
+    ],
+    libs: [
+        "junit",
+        "bouncycastle-unbundled",
+        "bouncycastle-bcpkix-unbundled",
+        "bouncycastle-ocsp-unbundled",
+    ],
+}
+
 // Make the conscrypt-tests library.
 java_test {
     name: "conscrypt-tests",

@@ -1052,9 +1052,9 @@ public final class NativeCrypto {
     private static final String[] ENABLED_PROTOCOLS_TLSV1 = Platform.isTlsV1Deprecated()
             ? new String[0]
             : new String[] {
-                    DEPRECATED_PROTOCOL_TLSV1,
-                    DEPRECATED_PROTOCOL_TLSV1_1,
-            };
+                      DEPRECATED_PROTOCOL_TLSV1,
+                      DEPRECATED_PROTOCOL_TLSV1_1,
+              };
 
     private static final String[] SUPPORTED_PROTOCOLS_TLSV1 = Platform.isTlsV1Supported()
             ? new String[] {

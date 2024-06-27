@@ -17,9 +17,6 @@
 
 package com.android.org.conscrypt.javax.net.ssl;
 
-import libcore.junit.util.SwitchTargetSdkVersionRule;
-import libcore.junit.util.SwitchTargetSdkVersionRule.TargetSdkVersion;
-
 import static com.android.org.conscrypt.TestUtils.UTF_8;
 import static com.android.org.conscrypt.TestUtils.isLinux;
 import static com.android.org.conscrypt.TestUtils.isOsx;
@@ -113,6 +110,8 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509ExtendedKeyManager;
 import javax.net.ssl.X509KeyManager;
 import javax.net.ssl.X509TrustManager;
+import libcore.junit.util.SwitchTargetSdkVersionRule;
+import libcore.junit.util.SwitchTargetSdkVersionRule.TargetSdkVersion;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;

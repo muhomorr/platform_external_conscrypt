@@ -32,8 +32,10 @@ import java.security.spec.X509EncodedKeySpec;
 
 /**
  * Represents a BoringSSL {@code EVP_PKEY}.
+ * @hide This class is not part of the Android public SDK API
  */
-final class OpenSSLKey {
+@Internal
+public final class OpenSSLKey {
     private final NativeRef.EVP_PKEY ctx;
 
     private final boolean wrapped;
@@ -259,7 +261,7 @@ final class OpenSSLKey {
      *
      * @throws InvalidKeyException if parsing fails
      */
-    static OpenSSLKey fromPublicKeyPemInputStream(InputStream is)
+    public static OpenSSLKey fromPublicKeyPemInputStream(InputStream is)
             throws InvalidKeyException {
         OpenSSLBIOInputStream bis = new OpenSSLBIOInputStream(is, true);
         try {
@@ -277,7 +279,7 @@ final class OpenSSLKey {
     }
 
     @android.compat.annotation.UnsupportedAppUsage
-    PublicKey getPublicKey() throws NoSuchAlgorithmException {
+    public PublicKey getPublicKey() throws NoSuchAlgorithmException {
         switch (NativeCrypto.EVP_PKEY_type(ctx)) {
             case NativeConstants.EVP_PKEY_RSA:
                 return new OpenSSLRSAPublicKey(this);

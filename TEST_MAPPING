@@ -24,7 +24,7 @@
       "name": "CtsSecurityTestCases",
       "options": [
         {
-          "include-filter": "android.security.cts.CertBlocklist*"
+          "include-filter": "android.security.cts.CertBlocklistTest"
         }
       ]
     }

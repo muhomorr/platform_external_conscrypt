@@ -25,6 +25,9 @@
       "options": [
         {
           "include-filter": "android.security.cts.CertBlocklistTest"
+        },
+        {
+          "include-filter": "android.security.cts.CertBlocklistFileTest"
         }
       ]
     }

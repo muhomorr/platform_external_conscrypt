@@ -185,6 +185,31 @@ cc_library_host_shared {
     },
 }
 
+aconfig_declarations {
+    name: "conscrypt-aconfig-flags",
+    package: "com.android.org.conscrypt",
+    container: "com.android.conscrypt",
+    srcs: ["conscrypt.aconfig"],
+}
+
+java_aconfig_library {
+    name: "conscrypt-aconfig-flags-lib",
+    aconfig_declarations: "conscrypt-aconfig-flags",
+    system_modules: "art-module-intra-core-api-stubs-system-modules",
+    libs: [
+        "aconfig-annotations-lib-sdk-none",
+        "unsupportedappusage",
+    ],
+    sdk_version: "none",
+    patch_module: "java.base",
+    apex_available: [
+        "com.android.conscrypt",
+    ],
+    min_sdk_version: "30",
+    installable: false,
+    visibility: ["//visibility:private"],
+}
+
 cc_binary_host {
     name: "conscrypt_generate_constants",
     srcs: ["constants/src/gen/cpp/generate_constants.cc"],
@@ -253,6 +278,9 @@ java_library {
     ],
 
     libs: ["unsupportedappusage"],
+    static_libs: [
+        "conscrypt-aconfig-flags-lib",
+    ],
 
     // Conscrypt can be updated independently from the other core libraries so it must only depend
     // on public SDK and intra-core APIs.
@@ -616,7 +644,6 @@ cc_library_static {
     sdk_version: "9",
     stl: "c++_shared",
 }
-
 
 java_library {
     name: "conscrypt-test-support",

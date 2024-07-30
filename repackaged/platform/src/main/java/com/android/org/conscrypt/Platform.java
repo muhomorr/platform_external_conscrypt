@@ -71,6 +71,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.StandardConstants;
 import javax.net.ssl.X509ExtendedTrustManager;
 import javax.net.ssl.X509TrustManager;
+import libcore.net.NetworkSecurityPolicy;
 import sun.security.x509.AlgorithmId;
 
 final class Platform {
@@ -464,6 +465,10 @@ final class Platform {
     }
 
     static boolean isCTVerificationRequired(String hostname) {
+        if (Flags.certificateTransparencyPlatform()) {
+            return NetworkSecurityPolicy.getInstance()
+                    .isCertificateTransparencyVerificationRequired(hostname);
+        }
         return false;
     }
 

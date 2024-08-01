@@ -28,11 +28,9 @@ import com.android.org.conscrypt.Internal;
 @Internal
 public class PolicyImpl implements Policy {
     private final LogStore logStore;
-    private final int minimumLogCount;
 
-    public PolicyImpl(LogStore logStore, int minimumLogCount) {
+    public PolicyImpl(LogStore logStore) {
         this.logStore = logStore;
-        this.minimumLogCount = minimumLogCount;
     }
 
     @Override
@@ -46,6 +44,6 @@ public class PolicyImpl implements Policy {
             }
         }
 
-        return logSet.size() >= minimumLogCount;
+        return logSet.size() >= 2;
     }
 }

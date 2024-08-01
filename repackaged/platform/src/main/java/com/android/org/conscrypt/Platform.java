@@ -24,10 +24,10 @@ import static com.android.org.conscrypt.metrics.Source.SOURCE_MAINLINE;
 import android.system.ErrnoException;
 import android.system.Os;
 import android.system.StructTimeval;
-import com.android.org.conscrypt.ct.CTLogStore;
-import com.android.org.conscrypt.ct.CTLogStoreImpl;
-import com.android.org.conscrypt.ct.CTPolicy;
-import com.android.org.conscrypt.ct.CTPolicyImpl;
+import com.android.org.conscrypt.ct.LogStore;
+import com.android.org.conscrypt.ct.LogStoreImpl;
+import com.android.org.conscrypt.ct.Policy;
+import com.android.org.conscrypt.ct.PolicyImpl;
 import com.android.org.conscrypt.metrics.CipherSuite;
 import com.android.org.conscrypt.metrics.ConscryptStatsLog;
 import com.android.org.conscrypt.metrics.OptionalMethod;
@@ -494,12 +494,12 @@ final class Platform {
         return CertBlocklistImpl.getDefault();
     }
 
-    static CTLogStore newDefaultLogStore() {
-        return new CTLogStoreImpl();
+    static LogStore newDefaultLogStore() {
+        return new LogStoreImpl();
     }
 
-    static CTPolicy newDefaultPolicy(CTLogStore logStore) {
-        return new CTPolicyImpl(logStore, 2);
+    static Policy newDefaultPolicy(LogStore logStore) {
+        return new PolicyImpl(logStore, 2);
     }
 
     static boolean serverNamePermitted(SSLParametersImpl parameters, String serverName) {

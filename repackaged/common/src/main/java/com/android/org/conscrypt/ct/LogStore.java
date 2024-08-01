@@ -1,3 +1,4 @@
+/* GENERATED SOURCE. DO NOT MODIFY. */
 /*
  * Copyright (C) 2015 The Android Open Source Project
  *
@@ -14,12 +15,14 @@
  * limitations under the License.
  */
 
-package org.conscrypt.ct;
+package com.android.org.conscrypt.ct;
 
-import org.conscrypt.Internal;
+import com.android.org.conscrypt.Internal;
 
+/**
+ * @hide This class is not part of the Android public SDK API
+ */
 @Internal
-public interface CTLogStore {
-    CTLogInfo getKnownLog(byte[] logId);
+public interface LogStore {
+    LogInfo getKnownLog(byte[] logId);
 }
-

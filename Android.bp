@@ -491,12 +491,6 @@ java_sdk_library {
     sdk_version: "none",
     system_modules: "art-module-intra-core-api-stubs-system-modules",
 
-    // This module's output stubs contain apis defined in "conscrypt.module.public.api.stubs",
-    // but adding "conscrypt.module.public.api" as a dependency of this module leads to circular
-    // dependency and requires further bootstrapping. Thus, disable stubs generation from the
-    // api signature files and generate stubs from the source Java files instead.
-    build_from_text_stub: false,
-
     // Don't copy any output files to the dist.
     no_dist: true,
     lint: {

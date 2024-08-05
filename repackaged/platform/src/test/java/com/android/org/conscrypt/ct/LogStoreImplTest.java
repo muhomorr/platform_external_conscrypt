@@ -1,3 +1,4 @@
+/* GENERATED SOURCE. DO NOT MODIFY. */
 /*
  * Copyright (C) 2015 The Android Open Source Project
  *
@@ -14,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.conscrypt.ct;
+package com.android.org.conscrypt.ct;
 
 import static java.nio.charset.StandardCharsets.US_ASCII;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -30,9 +31,12 @@ import java.io.PrintWriter;
 import java.security.PublicKey;
 import java.util.Base64;
 import junit.framework.TestCase;
-import org.conscrypt.OpenSSLKey;
+import com.android.org.conscrypt.OpenSSLKey;
 
-public class CTLogStoreImplTest extends TestCase {
+/**
+ * @hide This class is not part of the Android public SDK API
+ */
+public class LogStoreImplTest extends TestCase {
     public void test_loadLogList() throws Exception {
         // clang-format off
         String content = "" +
@@ -105,7 +109,7 @@ public class CTLogStoreImplTest extends TestCase {
         // clang-format on
 
         File logList = writeFile(content);
-        CTLogStore store = new CTLogStoreImpl(logList.toPath());
+        LogStore store = new LogStoreImpl(logList.toPath());
 
         assertNull("A null logId should return null", store.getKnownLog(null));
 
@@ -115,10 +119,15 @@ public class CTLogStoreImplTest extends TestCase {
                 + "\n-----END PUBLIC KEY-----\n")
                              .getBytes(US_ASCII);
         ByteArrayInputStream is = new ByteArrayInputStream(pem);
-        PublicKey key = OpenSSLKey.fromPublicKeyPemInputStream(is).getPublicKey();
-        String description = "Operator 1 'Test2024' log";
-        String url = "https://operator1.example.com/logs/test2024/";
-        CTLogInfo log1 = new CTLogInfo(key, CTLogInfo.STATE_USABLE, description, url);
+
+        LogInfo log1 =
+                new LogInfo.Builder()
+                        .setPublicKey(OpenSSLKey.fromPublicKeyPemInputStream(is).getPublicKey())
+                        .setDescription("Operator 1 'Test2024' log")
+                        .setUrl("https://operator1.example.com/logs/test2024/")
+                        .setState(LogInfo.STATE_USABLE)
+                        .setOperator("Operator 1")
+                        .build();
         byte[] log1Id = Base64.getDecoder().decode("7s3QZNXbGs7FXLedtM0TojKHRny87N7DUUhZRnEftZs=");
         assertEquals("An existing logId should be returned", log1, store.getKnownLog(log1Id));
     }
@@ -132,4 +141,3 @@ public class CTLogStoreImplTest extends TestCase {
         return file;
     }
 }
-

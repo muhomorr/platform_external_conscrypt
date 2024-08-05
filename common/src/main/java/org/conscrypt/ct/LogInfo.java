@@ -23,6 +23,7 @@ import java.security.PublicKey;
 import java.security.Signature;
 import java.security.SignatureException;
 import java.util.Arrays;
+import java.util.Objects;
 import org.conscrypt.Internal;
 
 /**
@@ -31,43 +32,88 @@ import org.conscrypt.Internal;
  * It allows verification of SCTs against the log's public key.
  */
 @Internal
-public class CTLogInfo {
-    public static final int STATE_PENDING = 0;
-    public static final int STATE_QUALIFIED = 1;
-    public static final int STATE_USABLE = 2;
-    public static final int STATE_READONLY = 3;
-    public static final int STATE_RETIRED = 4;
-    public static final int STATE_REJECTED = 5;
+public class LogInfo {
+    public static final int STATE_UNKNOWN = 0;
+    public static final int STATE_PENDING = 1;
+    public static final int STATE_QUALIFIED = 2;
+    public static final int STATE_USABLE = 3;
+    public static final int STATE_READONLY = 4;
+    public static final int STATE_RETIRED = 5;
+    public static final int STATE_REJECTED = 6;
 
     private final byte[] logId;
     private final PublicKey publicKey;
     private final int state;
     private final String description;
     private final String url;
+    private final String operator;
 
-    public CTLogInfo(PublicKey publicKey, int state, String description, String url) {
-        if (publicKey == null) {
-            throw new IllegalArgumentException("null publicKey");
-        }
-        if (description == null) {
-            throw new IllegalArgumentException("null description");
-        }
-        if (state < 0 || state > STATE_REJECTED) {
-            throw new IllegalArgumentException("invalid state value");
+    private LogInfo(Builder builder) {
+        /* Based on the required fields for the log list schema v3. Notably,
+         * the state may be absent. The logId must match the public key, this
+         * is validated in the builder. */
+        Objects.requireNonNull(builder.logId);
+        Objects.requireNonNull(builder.publicKey);
+        Objects.requireNonNull(builder.url);
+        Objects.requireNonNull(builder.operator);
+
+        this.logId = builder.logId;
+        this.publicKey = builder.publicKey;
+        this.state = builder.state;
+        this.description = builder.description;
+        this.url = builder.url;
+        this.operator = builder.operator;
+    }
+
+    public static class Builder {
+        private byte[] logId;
+        private PublicKey publicKey;
+        private int state;
+        private String description;
+        private String url;
+        private String operator;
+
+        public Builder setPublicKey(PublicKey publicKey) {
+            Objects.requireNonNull(publicKey);
+            this.publicKey = publicKey;
+            try {
+                this.logId = MessageDigest.getInstance("SHA-256").digest(publicKey.getEncoded());
+            } catch (NoSuchAlgorithmException e) {
+                // SHA-256 is guaranteed to be available
+                throw new RuntimeException(e);
+            }
+            return this;
         }
 
-        try {
-            this.logId = MessageDigest.getInstance("SHA-256")
-                .digest(publicKey.getEncoded());
-        } catch (NoSuchAlgorithmException e) {
-            // SHA-256 is guaranteed to be available
-            throw new RuntimeException(e);
+        public Builder setState(int state) {
+            if (state < 0 || state > STATE_REJECTED) {
+                throw new IllegalArgumentException("invalid state value");
+            }
+            this.state = state;
+            return this;
         }
 
-        this.publicKey = publicKey;
-        this.state = state;
-        this.description = description;
-        this.url = url;
+        public Builder setDescription(String description) {
+            Objects.requireNonNull(description);
+            this.description = description;
+            return this;
+        }
+
+        public Builder setUrl(String url) {
+            Objects.requireNonNull(url);
+            this.url = url;
+            return this;
+        }
+
+        public Builder setOperator(String operator) {
+            Objects.requireNonNull(operator);
+            this.operator = operator;
+            return this;
+        }
+
+        public LogInfo build() {
+            return new LogInfo(this);
+        }
     }
 
     /**
@@ -93,18 +139,23 @@ public class CTLogInfo {
         return state;
     }
 
+    public String getOperator() {
+        return operator;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other) {
             return true;
         }
-        if (!(other instanceof CTLogInfo)) {
+        if (!(other instanceof LogInfo)) {
             return false;
         }
 
-        CTLogInfo that = (CTLogInfo)other;
+        LogInfo that = (LogInfo) other;
         return this.state == that.state && this.description.equals(that.description)
-                && this.url.equals(that.url) && Arrays.equals(this.logId, that.logId);
+                && this.url.equals(that.url) && this.operator.equals(that.operator)
+                && Arrays.equals(this.logId, that.logId);
     }
 
     @Override
@@ -114,6 +165,7 @@ public class CTLogInfo {
         hash = hash * 31 + description.hashCode();
         hash = hash * 31 + url.hashCode();
         hash = hash * 31 + state;
+        hash = hash * 31 + operator.hashCode();
 
         return hash;
     }
@@ -124,8 +176,8 @@ public class CTLogInfo {
      *
      * @return the result of the verification
      */
-    public VerifiedSCT.Status verifySingleSCT(SignedCertificateTimestamp sct,
-                                              CertificateEntry entry) {
+    public VerifiedSCT.Status verifySingleSCT(
+            SignedCertificateTimestamp sct, CertificateEntry entry) {
         if (!Arrays.equals(sct.getLogID(), getID())) {
             return VerifiedSCT.Status.UNKNOWN_LOG;
         }
@@ -164,4 +216,3 @@ public class CTLogInfo {
         }
     }
 }
-

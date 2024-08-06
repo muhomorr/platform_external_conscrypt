@@ -24,7 +24,7 @@ import com.android.org.conscrypt.Internal;
  * @hide This class is not part of the Android public SDK API
  */
 @Internal
-public interface CTPolicy {
-    boolean doesResultConformToPolicy(CTVerificationResult result, String hostname,
-            X509Certificate[] chain);
+public interface Policy {
+    boolean doesResultConformToPolicy(
+            VerificationResult result, String hostname, X509Certificate[] chain);
 }

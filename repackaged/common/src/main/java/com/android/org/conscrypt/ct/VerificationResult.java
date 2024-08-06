@@ -26,12 +26,12 @@ import com.android.org.conscrypt.Internal;
  * @hide This class is not part of the Android public SDK API
  */
 @Internal
-public class CTVerificationResult {
+public class VerificationResult {
     private final ArrayList<VerifiedSCT> validSCTs = new ArrayList<VerifiedSCT>();
     private final ArrayList<VerifiedSCT> invalidSCTs = new ArrayList<VerifiedSCT>();
 
     public void add(VerifiedSCT result) {
-        if (result.status == VerifiedSCT.Status.VALID) {
+        if (result.isValid()) {
             validSCTs.add(result);
         } else {
             invalidSCTs.add(result);
@@ -46,4 +46,3 @@ public class CTVerificationResult {
         return Collections.unmodifiableList(invalidSCTs);
     }
 }
-

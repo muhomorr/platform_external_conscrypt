@@ -19,8 +19,8 @@ package com.android.org.conscrypt;
 
 import static com.android.org.conscrypt.TestUtils.installConscryptAsDefaultProvider;
 
-import com.android.org.conscrypt.ct.CTVerifierTest;
 import com.android.org.conscrypt.ct.SerializationTest;
+import com.android.org.conscrypt.ct.VerifierTest;
 import com.android.org.conscrypt.java.security.AlgorithmParameterGeneratorTestDH;
 import com.android.org.conscrypt.java.security.AlgorithmParameterGeneratorTestDSA;
 import com.android.org.conscrypt.java.security.AlgorithmParametersPSSTest;
@@ -115,7 +115,7 @@ import org.junit.runners.Suite;
         TestSessionBuilderTest.class,
         TrustManagerImplTest.class,
         // org.conscrypt.ct tests
-        CTVerifierTest.class,
+        VerifierTest.class,
         SerializationTest.class,
         // java.security tests
         CertificateFactoryTest.class,

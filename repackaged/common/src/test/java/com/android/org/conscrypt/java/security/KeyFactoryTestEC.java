@@ -16,6 +16,14 @@
  */
 package com.android.org.conscrypt.java.security;
 
+import libcore.junit.util.EnableDeprecatedBouncyCastleAlgorithmsRule;
+
+import org.junit.ClassRule;
+import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.ECPrivateKey;
@@ -25,12 +33,7 @@ import java.security.spec.ECPublicKeySpec;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 import java.util.List;
-import libcore.junit.util.EnableDeprecatedBouncyCastleAlgorithmsRule;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.rules.TestRule;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+
 import tests.util.ServiceTester;
 
 /**

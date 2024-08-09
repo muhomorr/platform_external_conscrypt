@@ -25,6 +25,7 @@ import static com.android.org.conscrypt.TestUtils.isTlsV1Filtered;
 import static com.android.org.conscrypt.TestUtils.isTlsV1Supported;
 import static com.android.org.conscrypt.TestUtils.isWindows;
 import static com.android.org.conscrypt.TestUtils.osName;
+
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -51,6 +52,19 @@ import com.android.org.conscrypt.tlswire.handshake.HelloExtension;
 import com.android.org.conscrypt.tlswire.handshake.ServerNameHelloExtension;
 import com.android.org.conscrypt.tlswire.record.TlsProtocols;
 import com.android.org.conscrypt.tlswire.record.TlsRecord;
+
+import libcore.junit.util.SwitchTargetSdkVersionRule;
+import libcore.junit.util.SwitchTargetSdkVersionRule.TargetSdkVersion;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -83,6 +97,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
+
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.net.ServerSocketFactory;
@@ -110,16 +125,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509ExtendedKeyManager;
 import javax.net.ssl.X509KeyManager;
 import javax.net.ssl.X509TrustManager;
-import libcore.junit.util.SwitchTargetSdkVersionRule;
-import libcore.junit.util.SwitchTargetSdkVersionRule.TargetSdkVersion;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TestRule;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+
 import tests.net.DelegatingSSLSocketFactory;
 import tests.util.ForEachRunner;
 import tests.util.Pair;

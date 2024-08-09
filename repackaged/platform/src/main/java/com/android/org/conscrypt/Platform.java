@@ -19,11 +19,13 @@ package com.android.org.conscrypt;
 
 import static android.system.OsConstants.SOL_SOCKET;
 import static android.system.OsConstants.SO_SNDTIMEO;
+
 import static com.android.org.conscrypt.metrics.Source.SOURCE_MAINLINE;
 
 import android.system.ErrnoException;
 import android.system.Os;
 import android.system.StructTimeval;
+
 import com.android.org.conscrypt.ct.LogStore;
 import com.android.org.conscrypt.ct.LogStoreImpl;
 import com.android.org.conscrypt.ct.Policy;
@@ -32,9 +34,13 @@ import com.android.org.conscrypt.metrics.CipherSuite;
 import com.android.org.conscrypt.metrics.ConscryptStatsLog;
 import com.android.org.conscrypt.metrics.OptionalMethod;
 import com.android.org.conscrypt.metrics.Protocol;
+
 import dalvik.system.BlockGuard;
 import dalvik.system.CloseGuard;
 import dalvik.system.VMRuntime;
+
+import libcore.net.NetworkSecurityPolicy;
+
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.lang.System;
@@ -59,6 +65,7 @@ import java.security.spec.InvalidParameterSpecException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
 import javax.crypto.spec.GCMParameterSpec;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SNIHostName;
@@ -71,7 +78,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.StandardConstants;
 import javax.net.ssl.X509ExtendedTrustManager;
 import javax.net.ssl.X509TrustManager;
-import libcore.net.NetworkSecurityPolicy;
+
 import sun.security.x509.AlgorithmId;
 
 final class Platform {

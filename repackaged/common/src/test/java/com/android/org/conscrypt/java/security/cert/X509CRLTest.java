@@ -25,6 +25,15 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.android.org.conscrypt.TestUtils;
+
+import libcore.junit.util.EnableDeprecatedBouncyCastleAlgorithmsRule;
+
+import org.junit.ClassRule;
+import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.Provider;
@@ -35,12 +44,7 @@ import java.security.cert.X509CRL;
 import java.security.cert.X509CRLEntry;
 import java.security.cert.X509Certificate;
 import java.util.Collections;
-import libcore.junit.util.EnableDeprecatedBouncyCastleAlgorithmsRule;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.rules.TestRule;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+
 import tests.util.ServiceTester;
 
 /**

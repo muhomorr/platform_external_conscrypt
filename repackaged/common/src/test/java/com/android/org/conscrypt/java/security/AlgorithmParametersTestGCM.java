@@ -21,15 +21,20 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.android.org.conscrypt.TestUtils;
-import java.security.AlgorithmParameters;
-import java.security.Provider;
-import javax.crypto.spec.GCMParameterSpec;
+
 import libcore.junit.util.EnableDeprecatedBouncyCastleAlgorithmsRule;
+
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import java.security.AlgorithmParameters;
+import java.security.Provider;
+
+import javax.crypto.spec.GCMParameterSpec;
+
 import tests.util.ServiceTester;
 
 /**

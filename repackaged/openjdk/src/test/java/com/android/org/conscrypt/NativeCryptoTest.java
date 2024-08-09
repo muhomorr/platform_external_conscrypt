@@ -29,6 +29,7 @@ import static com.android.org.conscrypt.NativeConstants.TLS1_2_VERSION;
 import static com.android.org.conscrypt.NativeConstants.TLS1_VERSION;
 import static com.android.org.conscrypt.TestUtils.openTestFile;
 import static com.android.org.conscrypt.TestUtils.readTestFile;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -44,6 +45,14 @@ import com.android.org.conscrypt.OpenSSLX509CertificateFactory.ParsingException;
 import com.android.org.conscrypt.io.IoUtils;
 import com.android.org.conscrypt.java.security.StandardNames;
 import com.android.org.conscrypt.java.security.TestKeyStore;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileDescriptor;
@@ -78,17 +87,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLHandshakeException;
 import javax.net.ssl.SSLProtocolException;
 import javax.security.auth.x500.X500Principal;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
 
 /**
  * @hide This class is not part of the Android public SDK API

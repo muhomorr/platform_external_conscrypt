@@ -24,6 +24,10 @@ import static org.junit.Assert.fail;
 import com.android.org.conscrypt.java.security.StandardNames;
 import com.android.org.conscrypt.java.security.TestKeyStore;
 import com.android.org.conscrypt.testing.Streams;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.junit.Assume;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -56,6 +60,7 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Predicate;
+
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLEngineResult;
@@ -64,8 +69,6 @@ import javax.net.ssl.SSLParameters;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.junit.Assume;
 
 /**
  * Utility methods to support testing.

@@ -712,7 +712,7 @@ final class Platform {
         return null;
     }
 
-    static Policy newDefaultPolicy(LogStore logStore) {
+    static Policy newDefaultPolicy() {
         return null;
     }
 

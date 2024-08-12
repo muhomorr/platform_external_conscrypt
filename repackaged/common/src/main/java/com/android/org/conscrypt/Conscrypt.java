@@ -17,6 +17,7 @@
 package com.android.org.conscrypt;
 
 import com.android.org.conscrypt.io.IoUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -25,6 +26,7 @@ import java.security.PrivateKey;
 import java.security.Provider;
 import java.security.cert.X509Certificate;
 import java.util.Properties;
+
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;

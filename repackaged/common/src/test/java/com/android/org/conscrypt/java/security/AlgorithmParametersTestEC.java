@@ -20,18 +20,22 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.android.org.conscrypt.TestUtils;
+
+import libcore.junit.util.EnableDeprecatedBouncyCastleAlgorithmsRule;
+
+import org.junit.ClassRule;
+import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
 import java.security.AlgorithmParameters;
 import java.security.Provider;
 import java.security.spec.ECGenParameterSpec;
 import java.security.spec.InvalidParameterSpecException;
 import java.util.Arrays;
 import java.util.List;
-import libcore.junit.util.EnableDeprecatedBouncyCastleAlgorithmsRule;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.rules.TestRule;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+
 import tests.util.ServiceTester;
 
 /**

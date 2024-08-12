@@ -26,6 +26,18 @@ import static org.junit.Assert.fail;
 
 import com.android.org.conscrypt.Conscrypt;
 import com.android.org.conscrypt.TestUtils;
+
+import libcore.junit.util.EnableDeprecatedBouncyCastleAlgorithmsRule;
+
+import junit.framework.AssertionFailedError;
+
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
+import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.GeneralSecurityException;
@@ -49,17 +61,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+
 import javax.crypto.KeyAgreement;
 import javax.crypto.SecretKey;
 import javax.crypto.ShortBufferException;
-import junit.framework.AssertionFailedError;
-import libcore.junit.util.EnableDeprecatedBouncyCastleAlgorithmsRule;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.rules.TestRule;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
 /**
  * Tests for all registered Elliptic Curve Diffie-Hellman {@link KeyAgreement} providers.

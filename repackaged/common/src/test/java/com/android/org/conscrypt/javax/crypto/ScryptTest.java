@@ -18,6 +18,7 @@
 package com.android.org.conscrypt.javax.crypto;
 
 import static com.android.org.conscrypt.TestUtils.decodeHex;
+
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -25,20 +26,23 @@ import static org.junit.Assert.assertNotNull;
 
 import com.android.org.conscrypt.ScryptKeySpec;
 import com.android.org.conscrypt.TestUtils;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.spec.KeySpec;
-import java.util.List;
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.SecretKeySpec;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.spec.KeySpec;
+import java.util.List;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * @hide This class is not part of the Android public SDK API

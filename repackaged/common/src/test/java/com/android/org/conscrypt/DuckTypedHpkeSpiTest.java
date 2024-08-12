@@ -30,6 +30,7 @@ import static com.android.org.conscrypt.HpkeFixture.createDefaultHpkeContextReci
 import static com.android.org.conscrypt.HpkeFixture.createDefaultHpkeContextSender;
 import static com.android.org.conscrypt.HpkeTestVectorsTest.getHpkeEncryptionRecords;
 import static com.android.org.conscrypt.TestUtils.encodeHex;
+
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -40,6 +41,13 @@ import static org.junit.Assert.assertTrue;
 import com.android.org.conscrypt.HpkeTestVectorsTest.HpkeData;
 import com.android.org.conscrypt.HpkeTestVectorsTest.HpkeEncryptionData;
 import com.android.org.conscrypt.java.security.DefaultKeys;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
@@ -49,11 +57,6 @@ import java.security.Provider;
 import java.security.PublicKey;
 import java.security.Security;
 import java.util.List;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
 /**
  * Tests for DuckTypedHpkeSpiTest. Essentially the same as the tests for HpkeContext but

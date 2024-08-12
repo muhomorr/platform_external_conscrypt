@@ -20,18 +20,22 @@ package com.android.org.conscrypt.java.security;
 import static org.junit.Assert.assertEquals;
 
 import com.android.org.conscrypt.TestUtils;
+
+import libcore.junit.util.EnableDeprecatedBouncyCastleAlgorithmsRule;
+
+import org.junit.ClassRule;
+import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import libcore.junit.util.EnableDeprecatedBouncyCastleAlgorithmsRule;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.rules.TestRule;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+
 import tests.util.ServiceTester;
 
 /**

@@ -18,6 +18,7 @@
 package com.android.org.conscrypt.ct;
 
 import com.android.org.conscrypt.Internal;
+
 import java.util.Objects;
 
 /**

@@ -23,6 +23,11 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.android.org.conscrypt.ByteArray;
 import com.android.org.conscrypt.Internal;
 import com.android.org.conscrypt.OpenSSLKey;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -39,9 +44,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * @hide This class is not part of the Android public SDK API

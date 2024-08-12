@@ -19,12 +19,16 @@ package com.android.org.conscrypt;
 
 import static com.android.org.conscrypt.TestUtils.assumeJava8;
 import static com.android.org.conscrypt.TestUtils.isJavaVersion;
+
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import com.android.org.conscrypt.testing.FailingSniMatcher;
 import com.android.org.conscrypt.testing.RestrictedAlgorithmConstraints;
+
+import org.junit.Test;
+
 import java.lang.reflect.Method;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -32,11 +36,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+
 import javax.net.ssl.SNIHostName;
 import javax.net.ssl.SNIMatcher;
 import javax.net.ssl.SNIServerName;
 import javax.net.ssl.SSLParameters;
-import org.junit.Test;
 
 /**
  * Test for Platform

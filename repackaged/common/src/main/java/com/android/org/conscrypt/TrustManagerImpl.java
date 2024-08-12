@@ -39,6 +39,7 @@ import com.android.org.conscrypt.ct.LogStore;
 import com.android.org.conscrypt.ct.Policy;
 import com.android.org.conscrypt.ct.VerificationResult;
 import com.android.org.conscrypt.ct.Verifier;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.Socket;
@@ -68,6 +69,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
+
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLParameters;

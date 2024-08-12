@@ -24,12 +24,15 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.android.org.conscrypt.java.security.StandardNames;
-import java.security.Provider;
-import java.security.Security;
-import javax.net.ssl.SSLContext;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import java.security.Provider;
+import java.security.Security;
+
+import javax.net.ssl.SSLContext;
 
 /**
  * @hide This class is not part of the Android public SDK API

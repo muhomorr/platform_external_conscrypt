@@ -23,6 +23,11 @@ import static org.junit.Assert.fail;
 
 import com.android.org.conscrypt.java.security.TestKeyStore;
 import com.android.org.conscrypt.javax.net.ssl.TestHostnameVerifier;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
 import java.io.IOException;
 import java.security.KeyStore;
 import java.security.Principal;
@@ -31,6 +36,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.List;
+
 import javax.net.ssl.HandshakeCompletedListener;
 import javax.net.ssl.SSLParameters;
 import javax.net.ssl.SSLPeerUnverifiedException;
@@ -38,9 +44,6 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSessionContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.X509TrustManager;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
 /**
  * @hide This class is not part of the Android public SDK API

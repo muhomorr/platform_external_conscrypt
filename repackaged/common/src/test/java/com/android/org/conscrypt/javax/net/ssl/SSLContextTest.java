@@ -18,6 +18,7 @@
 package com.android.org.conscrypt.javax.net.ssl;
 
 import static com.android.org.conscrypt.TestUtils.isWindows;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
@@ -29,6 +30,13 @@ import static org.junit.Assert.fail;
 
 import com.android.org.conscrypt.TestUtils;
 import com.android.org.conscrypt.java.security.StandardNames;
+
+import junit.framework.AssertionFailedError;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
 import java.io.IOException;
 import java.security.AccessController;
 import java.security.InvalidAlgorithmParameterException;
@@ -47,6 +55,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
+
 import javax.net.ServerSocketFactory;
 import javax.net.SocketFactory;
 import javax.net.ssl.KeyManager;
@@ -64,10 +73,6 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.TrustManagerFactorySpi;
 import javax.net.ssl.X509KeyManager;
-import junit.framework.AssertionFailedError;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
 /**
  * @hide This class is not part of the Android public SDK API

@@ -21,13 +21,15 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.android.org.conscrypt.java.security.cert.FakeX509Certificate;
-import java.security.PublicKey;
-import java.security.cert.X509Certificate;
+
 import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import java.security.PublicKey;
+import java.security.cert.X509Certificate;
 
 /**
  * @hide This class is not part of the Android public SDK API

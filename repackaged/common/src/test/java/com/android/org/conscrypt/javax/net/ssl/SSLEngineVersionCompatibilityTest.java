@@ -19,7 +19,7 @@ package com.android.org.conscrypt.javax.net.ssl;
 
 import static com.android.org.conscrypt.TestUtils.UTF_8;
 import static com.android.org.conscrypt.TestUtils.assumeJava8;
-import static java.util.Collections.singleton;
+
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -29,6 +29,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
+
+import static java.util.Collections.singleton;
 
 import com.android.org.conscrypt.Conscrypt;
 import com.android.org.conscrypt.TestUtils;
@@ -42,6 +44,11 @@ import com.android.org.conscrypt.tlswire.handshake.HelloExtension;
 import com.android.org.conscrypt.tlswire.handshake.ServerNameHelloExtension;
 import com.android.org.conscrypt.tlswire.record.TlsProtocols;
 import com.android.org.conscrypt.tlswire.record.TlsRecord;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.nio.ByteBuffer;
@@ -58,6 +65,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+
 import javax.net.ssl.ExtendedSSLSession;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -75,9 +83,6 @@ import javax.net.ssl.SSLParameters;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.X509ExtendedKeyManager;
 import javax.net.ssl.X509TrustManager;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 
 /**
  * Tests for SSLSocket classes that ensure the TLS 1.2 and TLS 1.3 implementations

@@ -20,6 +20,9 @@ package com.android.org.conscrypt;
 import static com.android.org.conscrypt.TestUtils.openTestFile;
 
 import com.android.org.conscrypt.OpenSSLX509CertificateFactory.ParsingException;
+
+import junit.framework.TestCase;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -31,7 +34,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
-import junit.framework.TestCase;
 
 /**
  * @hide This class is not part of the Android public SDK API

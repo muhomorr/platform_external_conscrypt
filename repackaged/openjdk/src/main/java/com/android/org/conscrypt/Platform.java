@@ -39,6 +39,7 @@ import static java.nio.file.attribute.PosixFilePermission.OWNER_EXECUTE;
 
 import com.android.org.conscrypt.ct.LogStore;
 import com.android.org.conscrypt.ct.Policy;
+
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.IOException;
@@ -73,6 +74,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+
 import javax.crypto.spec.GCMParameterSpec;
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLParameters;
@@ -82,6 +84,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509ExtendedTrustManager;
 import javax.net.ssl.X509TrustManager;
+
 import sun.security.x509.AlgorithmId;
 
 /**

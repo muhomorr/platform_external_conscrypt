@@ -17,17 +17,18 @@
 
 package com.android.org.conscrypt.ct;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import com.android.org.conscrypt.java.security.cert.FakeX509Certificate;
-import java.security.PublicKey;
-import java.security.cert.X509Certificate;
+
 import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import java.security.PublicKey;
+import java.security.cert.X509Certificate;
 
 /**
  * @hide This class is not part of the Android public SDK API
@@ -115,7 +116,8 @@ public class PolicyImplTest {
         VerificationResult result = new VerificationResult();
 
         X509Certificate leaf = new FakeX509Certificate();
-        assertFalse("An empty VerificationResult", p.doesResultConformToPolicy(result, leaf));
+        assertEquals("An empty VerificationResult", PolicyCompliance.NOT_ENOUGH_SCTS,
+                p.doesResultConformToPolicy(result, leaf));
     }
 
     @Test
@@ -137,7 +139,7 @@ public class PolicyImplTest {
         result.add(vsct2);
 
         X509Certificate leaf = new FakeX509Certificate();
-        assertTrue("Two valid SCTs from different operators",
+        assertEquals("Two valid SCTs from different operators", PolicyCompliance.COMPLY,
                 p.doesResultConformToPolicy(result, leaf));
     }
 
@@ -160,8 +162,8 @@ public class PolicyImplTest {
         result.add(vsct2);
 
         X509Certificate leaf = new FakeX509Certificate();
-        assertTrue("One valid, one retired SCTs from different operators",
-                p.doesResultConformToPolicy(result, leaf));
+        assertEquals("One valid, one retired SCTs from different operators",
+                PolicyCompliance.COMPLY, p.doesResultConformToPolicy(result, leaf));
     }
 
     @Test
@@ -177,7 +179,8 @@ public class PolicyImplTest {
         result.add(vsct1);
 
         X509Certificate leaf = new FakeX509Certificate();
-        assertFalse("One valid SCT", p.doesResultConformToPolicy(result, leaf));
+        assertEquals("One valid SCT", PolicyCompliance.NOT_ENOUGH_SCTS,
+                p.doesResultConformToPolicy(result, leaf));
     }
 
     @Test
@@ -199,7 +202,30 @@ public class PolicyImplTest {
         result.add(vsct2);
 
         X509Certificate leaf = new FakeX509Certificate();
-        assertFalse("Two retired SCTs from different operators",
+        assertEquals("Two retired SCTs from different operators", PolicyCompliance.NOT_ENOUGH_SCTS,
+                p.doesResultConformToPolicy(result, leaf));
+    }
+
+    @Test
+    public void invalidTwoSctsSameOperatorVerificationResult() throws Exception {
+        Policy p = new PolicyImpl();
+
+        VerifiedSCT vsct1 = new VerifiedSCT.Builder(embeddedSCT)
+                                    .setStatus(VerifiedSCT.Status.VALID)
+                                    .setLogInfo(usableOp1Log1)
+                                    .build();
+
+        VerifiedSCT vsct2 = new VerifiedSCT.Builder(embeddedSCT)
+                                    .setStatus(VerifiedSCT.Status.VALID)
+                                    .setLogInfo(usableOp1Log2)
+                                    .build();
+
+        VerificationResult result = new VerificationResult();
+        result.add(vsct1);
+        result.add(vsct2);
+
+        X509Certificate leaf = new FakeX509Certificate();
+        assertEquals("Two SCTs from the same operator", PolicyCompliance.NOT_ENOUGH_DIVERSE_SCTS,
                 p.doesResultConformToPolicy(result, leaf));
     }
 }

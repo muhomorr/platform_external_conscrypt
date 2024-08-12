@@ -18,6 +18,7 @@
 package com.android.org.conscrypt.ct;
 
 import com.android.org.conscrypt.Internal;
+
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

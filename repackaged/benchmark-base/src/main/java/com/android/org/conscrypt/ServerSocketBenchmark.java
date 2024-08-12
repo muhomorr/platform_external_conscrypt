@@ -19,9 +19,11 @@ package com.android.org.conscrypt;
 
 import static com.android.org.conscrypt.TestUtils.getCommonProtocolSuites;
 import static com.android.org.conscrypt.TestUtils.newTextMessage;
+
 import static org.junit.Assert.assertEquals;
 
 import com.android.org.conscrypt.ServerEndpoint.MessageProcessor;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.SocketException;

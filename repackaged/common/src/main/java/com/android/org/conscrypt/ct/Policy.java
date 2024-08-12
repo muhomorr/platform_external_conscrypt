@@ -25,5 +25,5 @@ import com.android.org.conscrypt.Internal;
  */
 @Internal
 public interface Policy {
-    boolean doesResultConformToPolicy(VerificationResult result, X509Certificate leaf);
+    PolicyCompliance doesResultConformToPolicy(VerificationResult result, X509Certificate leaf);
 }

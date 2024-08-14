@@ -18,6 +18,9 @@ package org.conscrypt.ct;
 
 import static org.junit.Assert.assertEquals;
 
+import libcore.test.annotation.NonCts;
+import libcore.test.reasons.NonCtsReasons;
+
 import org.conscrypt.java.security.cert.FakeX509Certificate;
 import org.junit.Assume;
 import org.junit.BeforeClass;
@@ -106,6 +109,7 @@ public class PolicyImplTest {
     }
 
     @Test
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
     public void emptyVerificationResult() throws Exception {
         Policy p = new PolicyImpl();
         VerificationResult result = new VerificationResult();
@@ -116,6 +120,7 @@ public class PolicyImplTest {
     }
 
     @Test
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
     public void validVerificationResult() throws Exception {
         Policy p = new PolicyImpl();
 
@@ -139,6 +144,7 @@ public class PolicyImplTest {
     }
 
     @Test
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
     public void validWithRetiredVerificationResult() throws Exception {
         Policy p = new PolicyImpl();
 
@@ -162,6 +168,7 @@ public class PolicyImplTest {
     }
 
     @Test
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
     public void invalidOneSctVerificationResult() throws Exception {
         Policy p = new PolicyImpl();
 
@@ -179,6 +186,7 @@ public class PolicyImplTest {
     }
 
     @Test
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
     public void invalidTwoSctsVerificationResult() throws Exception {
         Policy p = new PolicyImpl();
 
@@ -202,6 +210,7 @@ public class PolicyImplTest {
     }
 
     @Test
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
     public void invalidTwoSctsSameOperatorVerificationResult() throws Exception {
         Policy p = new PolicyImpl();
 

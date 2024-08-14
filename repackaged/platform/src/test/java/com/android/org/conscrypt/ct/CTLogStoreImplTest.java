@@ -31,6 +31,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.security.PublicKey;
 import junit.framework.TestCase;
+import libcore.test.annotation.NonCts;
+import libcore.test.reasons.NonCtsReasons;
 
 /**
  * @hide This class is not part of the Android public SDK API
@@ -85,6 +87,7 @@ public class CTLogStoreImplTest extends TestCase {
         }
     }
 
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
     public void test_loadLog() throws Exception {
         CTLogInfo log = CTLogStoreImpl.loadLog(
                 new ByteArrayInputStream(LOGS_SERIALIZED[0].getBytes(US_ASCII)));
@@ -107,6 +110,7 @@ public class CTLogStoreImplTest extends TestCase {
         } catch (FileNotFoundException e) {}
     }
 
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
     public void test_getKnownLog() throws Exception {
         File userDir = createTempDirectory();
         userDir.deleteOnExit();

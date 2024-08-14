@@ -21,10 +21,12 @@ import static com.android.org.conscrypt.TestUtils.openTestFile;
 import static com.android.org.conscrypt.TestUtils.readTestFile;
 import static org.junit.Assert.assertEquals;
 
-import java.security.PublicKey;
-import java.util.Arrays;
 import com.android.org.conscrypt.OpenSSLX509Certificate;
 import com.android.org.conscrypt.TestUtils;
+import java.security.PublicKey;
+import java.util.Arrays;
+import libcore.test.annotation.NonCts;
+import libcore.test.reasons.NonCtsReasons;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -65,6 +67,7 @@ public class CTVerifierTest {
     }
 
     @Test
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
     public void test_verifySignedCertificateTimestamps_withOCSPResponse() throws Exception {
         OpenSSLX509Certificate[] chain = new OpenSSLX509Certificate[] { cert, ca };
 
@@ -76,6 +79,7 @@ public class CTVerifierTest {
     }
 
     @Test
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
     public void test_verifySignedCertificateTimestamps_withTLSExtension() throws Exception {
         OpenSSLX509Certificate[] chain = new OpenSSLX509Certificate[] { cert, ca };
 
@@ -87,6 +91,7 @@ public class CTVerifierTest {
     }
 
     @Test
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
     public void test_verifySignedCertificateTimestamps_withEmbeddedExtension() throws Exception {
         OpenSSLX509Certificate[] chain = new OpenSSLX509Certificate[] { certEmbedded, ca };
 
@@ -97,6 +102,7 @@ public class CTVerifierTest {
     }
 
     @Test
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
     public void test_verifySignedCertificateTimestamps_withoutTimestamp() throws Exception {
         OpenSSLX509Certificate[] chain = new OpenSSLX509Certificate[] { cert, ca };
 
@@ -107,6 +113,7 @@ public class CTVerifierTest {
     }
 
     @Test
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
     public void test_verifySignedCertificateTimestamps_withInvalidSignature() throws Exception {
         OpenSSLX509Certificate[] chain = new OpenSSLX509Certificate[] { cert, ca };
 
@@ -121,6 +128,7 @@ public class CTVerifierTest {
     }
 
     @Test
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
     public void test_verifySignedCertificateTimestamps_withUnknownLog() throws Exception {
         OpenSSLX509Certificate[] chain = new OpenSSLX509Certificate[] { cert, ca };
 
@@ -135,6 +143,7 @@ public class CTVerifierTest {
     }
 
     @Test
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
     public void test_verifySignedCertificateTimestamps_withInvalidEncoding() throws Exception {
         OpenSSLX509Certificate[] chain = new OpenSSLX509Certificate[] { cert, ca };
 
@@ -148,6 +157,7 @@ public class CTVerifierTest {
     }
 
     @Test
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
     public void test_verifySignedCertificateTimestamps_withInvalidOCSPResponse() throws Exception {
         OpenSSLX509Certificate[] chain = new OpenSSLX509Certificate[] { cert, ca };
 
@@ -161,6 +171,7 @@ public class CTVerifierTest {
     }
 
     @Test
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
     public void test_verifySignedCertificateTimestamps_withMultipleTimestamps() throws Exception {
         OpenSSLX509Certificate[] chain = new OpenSSLX509Certificate[] { cert, ca };
 

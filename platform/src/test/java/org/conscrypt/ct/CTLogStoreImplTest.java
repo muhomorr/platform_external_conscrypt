@@ -19,6 +19,8 @@ package org.conscrypt.ct;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import libcore.test.annotation.NonCts;
+import libcore.test.reasons.NonCtsReasons;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -81,6 +83,7 @@ public class CTLogStoreImplTest extends TestCase {
         }
     }
 
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
     public void test_loadLog() throws Exception {
         CTLogInfo log = CTLogStoreImpl.loadLog(
                 new ByteArrayInputStream(LOGS_SERIALIZED[0].getBytes(US_ASCII)));
@@ -103,6 +106,7 @@ public class CTLogStoreImplTest extends TestCase {
         } catch (FileNotFoundException e) {}
     }
 
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
     public void test_getKnownLog() throws Exception {
         File userDir = createTempDirectory();
         userDir.deleteOnExit();

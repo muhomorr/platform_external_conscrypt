@@ -19,6 +19,13 @@ package org.conscrypt.ct;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import libcore.test.annotation.NonCts;
+import libcore.test.reasons.NonCtsReasons;
+
+import junit.framework.TestCase;
+
+import org.conscrypt.OpenSSLKey;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,10 +36,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.security.PublicKey;
 import java.util.Base64;
-import junit.framework.TestCase;
-import org.conscrypt.OpenSSLKey;
 
 public class LogStoreImplTest extends TestCase {
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
     public void test_loadLogList() throws Exception {
         // clang-format off
         String content = "" +

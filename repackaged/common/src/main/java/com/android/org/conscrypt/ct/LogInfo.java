@@ -47,6 +47,7 @@ public class LogInfo {
     private final byte[] logId;
     private final PublicKey publicKey;
     private final int state;
+    private final long stateTimestamp;
     private final String description;
     private final String url;
     private final String operator;
@@ -63,6 +64,7 @@ public class LogInfo {
         this.logId = builder.logId;
         this.publicKey = builder.publicKey;
         this.state = builder.state;
+        this.stateTimestamp = builder.stateTimestamp;
         this.description = builder.description;
         this.url = builder.url;
         this.operator = builder.operator;
@@ -75,6 +77,7 @@ public class LogInfo {
         private byte[] logId;
         private PublicKey publicKey;
         private int state;
+        private long stateTimestamp;
         private String description;
         private String url;
         private String operator;
@@ -91,11 +94,12 @@ public class LogInfo {
             return this;
         }
 
-        public Builder setState(int state) {
+        public Builder setState(int state, long timestamp) {
             if (state < 0 || state > STATE_REJECTED) {
                 throw new IllegalArgumentException("invalid state value");
             }
             this.state = state;
+            this.stateTimestamp = timestamp;
             return this;
         }
 
@@ -145,6 +149,17 @@ public class LogInfo {
         return state;
     }
 
+    public int getStateAt(long when) {
+        if (when >= this.stateTimestamp) {
+            return state;
+        }
+        return STATE_UNKNOWN;
+    }
+
+    public long getStateTimestamp() {
+        return stateTimestamp;
+    }
+
     public String getOperator() {
         return operator;
     }
@@ -161,12 +176,14 @@ public class LogInfo {
         LogInfo that = (LogInfo) other;
         return this.state == that.state && this.description.equals(that.description)
                 && this.url.equals(that.url) && this.operator.equals(that.operator)
+                && this.stateTimestamp == that.stateTimestamp
                 && Arrays.equals(this.logId, that.logId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Arrays.hashCode(logId), description, url, state, operator);
+        return Objects.hash(
+                Arrays.hashCode(logId), description, url, state, stateTimestamp, operator);
     }
 
     /**

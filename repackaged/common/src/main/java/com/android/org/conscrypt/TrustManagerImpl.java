@@ -143,6 +143,7 @@ public final class TrustManagerImpl extends X509ExtendedTrustManager {
     private final Exception err;
     private final CertificateFactory factory;
     private final CertBlocklist blocklist;
+    private LogStore ctLogStore;
     private Verifier ctVerifier;
     private Policy ctPolicy;
 
@@ -232,8 +233,10 @@ public final class TrustManagerImpl extends X509ExtendedTrustManager {
         this.acceptedIssuers = acceptedIssuersLocal;
         this.err = errLocal;
         this.blocklist = blocklist;
+        this.ctLogStore = ctLogStore;
         this.ctVerifier = new Verifier(ctLogStore);
         this.ctPolicy = ctPolicy;
+        ctLogStore.setPolicy(ctPolicy);
     }
 
     @SuppressWarnings("JdkObsolete") // KeyStore#aliases is the only API available
@@ -741,6 +744,12 @@ public final class TrustManagerImpl extends X509ExtendedTrustManager {
 
     private void checkCT(List<X509Certificate> chain, byte[] ocspData, byte[] tlsData)
             throws CertificateException {
+        if (ctLogStore.getState() != LogStore.State.COMPLIANT) {
+            /* Fail open. For some reason, the LogStore is not usable. It could
+             * be because there is no log list available or that the log list
+             * is too old (according to the policy). */
+            return;
+        }
         VerificationResult result =
                 ctVerifier.verifySignedCertificateTimestamps(chain, tlsData, ocspData);
 
@@ -1037,15 +1046,5 @@ public final class TrustManagerImpl extends X509ExtendedTrustManager {
 
     public void setCTEnabledOverride(boolean enabled) {
         this.ctEnabledOverride = enabled;
-    }
-
-    // Replace the CTVerifier. For testing only.
-    public void setCTVerifier(Verifier verifier) {
-        this.ctVerifier = verifier;
-    }
-
-    // Replace the CTPolicy. For testing only.
-    public void setCTPolicy(Policy policy) {
-        this.ctPolicy = policy;
     }
 }

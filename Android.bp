@@ -540,7 +540,10 @@ cc_library_shared {
     name: "libjavacrypto",
     host_supported: true,
     defaults: ["libjavacrypto-defaults"],
-
+    visibility: [
+        ":__subpackages__",
+        "//art/tools/ahat",
+    ],
     cflags: ["-DJNI_JARJAR_PREFIX=com/android/"],
     header_libs: ["libnativehelper_header_only"],
     shared_libs: ["liblog"],

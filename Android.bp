@@ -688,6 +688,11 @@ java_test {
         "repackaged/testing/src/main/java/**/*.java",
         "publicapi/src/test/java/**/*.java",
     ],
+    exclude_srcs: [
+        // b/360775273.
+        "repackaged/platform/src/test/java/com/android/org/conscrypt/ct/*.java",
+        "repackaged/common/src/test/java/com/android/org/conscrypt/ct/*.java",
+    ],
     java_resource_dirs: [
         // Resource directories do not need repackaging.
         "openjdk/src/test/resources",

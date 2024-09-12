@@ -683,15 +683,14 @@ java_test {
     ],
     hostdex: true,
     srcs: [
-        "repackaged/platform/src/test/java/**/*.java",
-        "repackaged/common/src/test/java/**/*.java",
+        "repackaged/platform/src/test/java/com/android/org/conscrypt/TrustedCertificateStoreTest.java",
+        "repackaged/platform/src/test/java/com/android/org/conscrypt/metrics/*.java",
+        "repackaged/common/src/test/java/com/android/org/conscrypt/*.java",
+        "repackaged/common/src/test/java/com/android/org/conscrypt/metrics/*.java",
+        "repackaged/common/src/test/java/com/android/org/conscrypt/java/**/*.java",
+        "repackaged/common/src/test/java/com/android/org/conscrypt/javax/**/*.java",
         "repackaged/testing/src/main/java/**/*.java",
         "publicapi/src/test/java/**/*.java",
-    ],
-    exclude_srcs: [
-        // b/360775273.
-        "repackaged/platform/src/test/java/com/android/org/conscrypt/ct/*.java",
-        "repackaged/common/src/test/java/com/android/org/conscrypt/ct/*.java",
     ],
     java_resource_dirs: [
         // Resource directories do not need repackaging.
@@ -729,6 +728,46 @@ java_test {
             enabled: false,
         },
     },
+    java_version: "1.8",
+}
+
+// Conscrypt private tests. These tests relies on private APIs. Prefer adding
+// your test to conscrypt-tests if possible, as these will be executed as part
+// of CTS (see CtsLibcoreTestCases).
+android_test {
+    name: "ConscryptPrivateTestCases",
+    srcs: [
+        "repackaged/platform/src/test/java/com/android/org/conscrypt/ct/*.java",
+        "repackaged/platform/src/test/java/com/android/org/conscrypt/CertBlocklistTest.java",
+        "repackaged/common/src/test/java/com/android/org/conscrypt/ct/*.java",
+        "repackaged/testing/src/main/java/**/*.java",
+    ],
+
+    java_resource_dirs: [
+        // Resource directories do not need repackaging.
+        "openjdk/src/test/resources",
+        "common/src/test/resources",
+    ],
+
+    platform_apis: true,
+    manifest: "AndroidManifest-private.xml",
+    test_config: "AndroidTest-private.xml",
+    libs: [
+        "conscrypt",
+        "core-test-rules",
+        "junit",
+        "mockito-target-minus-junit4",
+        "framework-statsd.stubs.module_lib",
+    ],
+
+    static_libs: [
+        "androidx.test.runner",
+        "androidx.test.rules",
+        "bouncycastle-unbundled",
+        "bouncycastle-bcpkix-unbundled",
+        "bouncycastle-ocsp-unbundled",
+    ],
+
     java_version: "1.8",
 }
 

@@ -21,17 +21,22 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.when;
 
-import java.nio.charset.Charset;
-import javax.net.ssl.SSLEngine;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.nio.charset.Charset;
+
+import javax.net.ssl.SSLEngine;
+
 /**
  * @hide This class is not part of the Android public SDK API
  */
+@RunWith(JUnit4.class)
 public class ApplicationProtocolSelectorAdapterTest {
     private static Charset US_ASCII = Charset.forName("US-ASCII");
     private static final String[] PROTOCOLS = new String[] {"a", "b", "c"};

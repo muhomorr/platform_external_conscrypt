@@ -28,6 +28,8 @@ import com.android.org.conscrypt.testing.FailingSniMatcher;
 import com.android.org.conscrypt.testing.RestrictedAlgorithmConstraints;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.lang.reflect.Method;
 import java.net.Socket;
@@ -46,6 +48,7 @@ import javax.net.ssl.SSLParameters;
  * Test for Platform
  * @hide This class is not part of the Android public SDK API
  */
+@RunWith(JUnit4.class)
 public class PlatformTest {
     private static final Method SSL_PARAMETERS_GET_APPLICATION_PROTOCOLS_METHOD;
     private static final Method SSL_PARAMETERS_SET_APPLICATION_PROTOCOLS_METHOD;

@@ -1047,4 +1047,14 @@ public final class TrustManagerImpl extends X509ExtendedTrustManager {
     public void setCTEnabledOverride(boolean enabled) {
         this.ctEnabledOverride = enabled;
     }
+
+    // Replace the CTVerifier. For testing only.
+    public void setCTVerifier(Verifier verifier) {
+        this.ctVerifier = verifier;
+    }
+
+    // Replace the CTPolicy. For testing only.
+    public void setCTPolicy(Policy policy) {
+        this.ctPolicy = policy;
+    }
 }

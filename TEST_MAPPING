@@ -31,5 +31,10 @@
         }
       ]
     }
+  ],
+  "postsubmit": [
+    {
+      "name": "ConscryptPrivateTestCases"
+    }
   ]
 }

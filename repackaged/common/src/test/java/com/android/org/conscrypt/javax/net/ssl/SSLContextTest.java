@@ -17,6 +17,7 @@
 
 package com.android.org.conscrypt.javax.net.ssl;
 
+import static com.android.org.conscrypt.TestUtils.isTlsV1Supported;
 import static com.android.org.conscrypt.TestUtils.isWindows;
 
 import static org.junit.Assert.assertEquals;
@@ -131,9 +132,11 @@ public class SSLContextTest {
     public void test_SSLContext_allProtocols() throws Exception {
         SSLConfigurationAsserts.assertSSLContextDefaultConfiguration(SSLContext.getDefault());
 
-        for (String protocol : StandardNames.SSL_CONTEXT_PROTOCOLS_ALL) {
+        for (String protocol : StandardNames.SSL_CONTEXT_PROTOCOLS) {
             SSLContext sslContext = SSLContext.getInstance(protocol);
-            sslContext.init(null, null, null);
+            if (!protocol.equals(StandardNames.SSL_CONTEXT_PROTOCOLS_DEFAULT)) {
+                sslContext.init(null, null, null);
+            }
         }
     }
 

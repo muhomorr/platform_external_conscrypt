@@ -767,8 +767,8 @@ android_test {
         "bouncycastle-bcpkix-unbundled",
         "bouncycastle-ocsp-unbundled",
     ],
-
     java_version: "1.8",
+    test_suites: ["general-tests"],
 }
 
 // Make the conscrypt-benchmarks library.

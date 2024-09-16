@@ -577,9 +577,7 @@ final class Platform {
      * Wrap the SocketFactory with the platform wrapper if needed for compatability.
      */
     public static SSLSocketFactory wrapSocketFactoryIfNeeded(OpenSSLSocketFactoryImpl factory) {
-        if (Build.VERSION.SDK_INT < 19) {
-            return new PreKitKatPlatformOpenSSLSocketAdapterFactory(factory);
-        } else if (Build.VERSION.SDK_INT < 22) {
+        if (Build.VERSION.SDK_INT < 22) {
             return new KitKatPlatformOpenSSLSocketAdapterFactory(factory);
         }
         return factory;
@@ -673,36 +671,20 @@ final class Platform {
      */
 
     public static CloseGuard closeGuardGet() {
-        if (Build.VERSION.SDK_INT < 14) {
-            return null;
-        }
-
         return CloseGuard.get();
     }
 
     public static void closeGuardOpen(Object guardObj, String message) {
-        if (Build.VERSION.SDK_INT < 14) {
-            return;
-        }
-
         CloseGuard guard = (CloseGuard) guardObj;
         guard.open(message);
     }
 
     public static void closeGuardClose(Object guardObj) {
-        if (Build.VERSION.SDK_INT < 14) {
-            return;
-        }
-
         CloseGuard guard = (CloseGuard) guardObj;
         guard.close();
     }
 
     public static void closeGuardWarnIfOpen(Object guardObj) {
-        if (Build.VERSION.SDK_INT < 14) {
-            return;
-        }
-
         CloseGuard guard = (CloseGuard) guardObj;
         guard.warnIfOpen();
     }

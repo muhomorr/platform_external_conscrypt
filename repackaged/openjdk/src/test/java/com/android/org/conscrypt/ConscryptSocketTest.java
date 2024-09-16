@@ -19,6 +19,7 @@ package com.android.org.conscrypt;
 
 import static com.android.org.conscrypt.TestUtils.openTestFile;
 import static com.android.org.conscrypt.TestUtils.readTestFile;
+
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -26,8 +27,22 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeFalse;
+import static org.junit.Assume.assumeTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -49,6 +64,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+
 import javax.net.ssl.HandshakeCompletedEvent;
 import javax.net.ssl.HandshakeCompletedListener;
 import javax.net.ssl.KeyManager;
@@ -59,16 +75,6 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
 
 /**
  * @hide This class is not part of the Android public SDK API
@@ -650,6 +656,7 @@ public class ConscryptSocketTest {
 
     @Test
     public void test_setEnabledProtocols_FiltersSSLv3_HandshakeException() throws Exception {
+        assumeTrue(TestUtils.isTlsV1Filtered());
         TestConnection connection = new TestConnection(new X509Certificate[] {cert, ca}, certKey);
 
         connection.clientHooks = new ClientHooks() {
@@ -664,10 +671,47 @@ public class ConscryptSocketTest {
         };
 
         connection.doHandshake();
-        assertThat(connection.clientException, instanceOf(SSLHandshakeException.class));
+        assertTrue("Expected SSLHandshakeException, but got "
+                        + connection.clientException.getClass().getSimpleName() + ": "
+                        + connection.clientException.getMessage(),
+                connection.clientException instanceof SSLHandshakeException);
         assertTrue(
                 connection.clientException.getMessage().contains("SSLv3 is no longer supported"));
-        assertThat(connection.serverException, instanceOf(SSLHandshakeException.class));
+        assertTrue("Expected SSLHandshakeException, but got "
+                        + connection.serverException.getClass().getSimpleName() + ": "
+                        + connection.serverException.getMessage(),
+                connection.serverException instanceof SSLHandshakeException);
+
+        assertFalse(connection.clientHooks.isHandshakeCompleted);
+        assertFalse(connection.serverHooks.isHandshakeCompleted);
+    }
+
+    @Test
+    public void test_setEnabledProtocols_RejectsSSLv3_IfNotFiltered() throws Exception {
+        assumeFalse(TestUtils.isTlsV1Filtered());
+        TestConnection connection = new TestConnection(new X509Certificate[] {cert, ca}, certKey);
+
+        connection.clientHooks = new ClientHooks() {
+            @Override
+            public AbstractConscryptSocket createSocket(ServerSocket listener) throws IOException {
+                try (AbstractConscryptSocket socket = super.createSocket(listener)) {
+                    socket.setEnabledProtocols(new String[] {"SSLv3"});
+                    fail("SSLv3 should be rejected");
+                    return socket;
+                }
+            }
+        };
+
+        connection.doHandshake();
+        assertTrue("Expected SSLHandshakeException, but got "
+                        + connection.clientException.getClass().getSimpleName() + ": "
+                        + connection.clientException.getMessage(),
+                connection.clientException instanceof IllegalArgumentException);
+        assertTrue(connection.clientException.getMessage().contains("SSLv3 is not supported"));
+        assertTrue("Expected SSLHandshakeException, but got "
+                        + connection.serverException.getClass().getSimpleName() + ": "
+                        + connection.serverException.getMessage(),
+                connection.serverException instanceof SSLHandshakeException);
 
         assertFalse(connection.clientHooks.isHandshakeCompleted);
         assertFalse(connection.serverHooks.isHandshakeCompleted);

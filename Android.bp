@@ -628,6 +628,7 @@ java_library {
         "common/src/main/java/**/HpkeSpi.java",
         "common/src/main/java/**/HpkeSuite.java",
         "common/src/main/java/**/Internal.java",
+        "common/src/main/java/**/Preconditions.java",
         "common/src/main/java/**/XdhKeySpec.java",
     ],
     jarjar_rules: "conscrypt-lite-jarjar-rules.txt",
@@ -767,8 +768,8 @@ android_test {
         "bouncycastle-bcpkix-unbundled",
         "bouncycastle-ocsp-unbundled",
     ],
-
     java_version: "1.8",
+    test_suites: ["general-tests"],
 }
 
 // Make the conscrypt-benchmarks library.
